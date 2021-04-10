@@ -18,7 +18,7 @@ export const repositoryProviders = [
   {
     provide: FOLDER_REPOSITORY,
     useFactory: (connection: Connection) =>
-      connection.getRepository(FolderEntity),
+      connection.getTreeRepository(FolderEntity),
     inject: [DATABASE_CONNECTION],
   },
   {
