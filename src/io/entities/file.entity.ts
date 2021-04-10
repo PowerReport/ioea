@@ -2,7 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -41,6 +41,9 @@ export class FileEntity {
   @Column({ nullable: true })
   folderId?: number | null | undefined;
 
-  @ManyToMany(() => FolderEntity, (f) => f.files)
+  @ManyToOne(() => FolderEntity, (f) => f.files)
   folder: FolderEntity;
+
+  @Column()
+  depth: number;
 }
