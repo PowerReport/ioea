@@ -8,7 +8,11 @@ export const FILE_SERVICE = 'FILE_SERVICE';
 
 export interface IFileService {
   /**
-   * 获取所有文件
+   * 获取文件列表
+   * @param search 检索关键字
+   * @param sortBy 排序
+   * @param page 页码
+   * @param pageSize 页码大小
    */
   getAll(
     search?: string | undefined,
