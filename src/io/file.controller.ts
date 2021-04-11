@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -21,6 +22,9 @@ import {
 import { FileDTO } from './dto/file.dto';
 import { FILE_SERVICE, IFileService } from './services/file.service';
 
+/**
+ * 文件服务
+ */
 @ApiTags('文件服务')
 @Controller('api/v1/file')
 export class FileController {
@@ -29,13 +33,20 @@ export class FileController {
     private readonly fileService: IFileService,
   ) {}
 
+  /**
+   * 获取文件列表
+   * @param search 检索关键字
+   * @param sortBy 排序
+   * @param page 页码
+   * @param pageSize 页码大小
+   */
   @ApiOperation({
-    description: '获取所有文件',
-    summary: '获取所有文件',
+    summary: '获取文件列表',
+    description: '获取文件列表',
   })
   @ApiQuery({
     name: 'search',
-    description: '查询关键字',
+    description: '检索关键字',
     type: String,
     required: false,
   })
@@ -53,7 +64,7 @@ export class FileController {
   })
   @ApiQuery({
     name: 'pageSize',
-    description: '每页的大小',
+    description: '页码大小',
     type: Number,
     required: false,
   })
@@ -77,8 +88,13 @@ export class FileController {
     return await this.fileService.getAll(search, sortBy, page, pageSize);
   }
 
+  /**
+   * 获取文件详情
+   * @param id 文件的id
+   */
   @ApiParam({
     name: 'id',
+    description: '',
     type: Number,
   })
   @Get(':id')
@@ -86,46 +102,96 @@ export class FileController {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 获取文件的信息
+   * @param id 文件的id
+   */
   @Get(':id/manifest')
   getManifest(@Param('id', ParseIntPipe) id: number) {
     throw new Error('not implemented.');
   }
 
-  @Get(':id/perview')
-  perview(@Param('id', ParseIntPipe) id: number) {
+  /**
+   * 预览文件
+   * @param id 文件的id
+   * @param version 文件的版本
+   */
+  @Get(':id/preview')
+  preview(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('version') version?: number | undefined,
+  ) {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 下载文件
+   * @param id 文件的id
+   */
   @Get(':id/download')
   download(@Param('id', ParseIntPipe) id: number) {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 导出
+   * @param id 文件的id
+   * @param type 文件类型
+   */
   @Get(':id/:type')
   export(@Param('id', ParseIntPipe) id: number, @Param('type') type: string) {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 新增文件
+   */
   @Post()
   post() {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 上传文件
+   */
   @Post('upload')
   upload() {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 复制文件
+   * @param id 文件的id
+   */
   @Post(':id/clone')
   clone(@Param('id', ParseIntPipe) id: number) {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 更新文件
+   * @param id 文件的id
+   */
   @Put(':id')
   put(@Param('id', ParseIntPipe) id: number) {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 重命名文件
+   * @param id 文件的id
+   * @param name 文件的名称
+   */
+  @Put(':id/name')
+  rename(@Param('id', ParseIntPipe) id: number, @Body('name') name: string) {
+    throw new Error('not implemented.');
+  }
+
+  /**
+   * 移动文件
+   * @param id 文件的id
+   * @param parentId 父目录的id
+   */
   @Put(':id/move')
   move(
     @Param('id', ParseIntPipe) id: number,
@@ -134,11 +200,19 @@ export class FileController {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 置顶文件
+   * @param id 文件的id
+   */
   @Put(':id/top')
   top(@Param('id', ParseIntPipe) id: number) {
     throw new Error('not implemented.');
   }
 
+  /**
+   * 删除文件
+   * @param id 文件的id
+   */
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
     throw new Error('not implemented.');
