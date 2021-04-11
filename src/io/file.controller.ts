@@ -94,7 +94,7 @@ export class FileController {
    */
   @ApiParam({
     name: 'id',
-    description: '',
+    description: '文件的id',
     type: Number,
   })
   @Get(':id')
