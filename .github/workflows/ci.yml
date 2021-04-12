@@ -31,8 +31,8 @@ jobs:
       - name: install dependencies
         run: npm install
 
-      - name: line
-        run: npm run line
+      - name: lint
+        run: npm run lint
 
       - name: build
         run: npm run build
