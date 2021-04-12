@@ -20,7 +20,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { FileDTO } from './dto/file.dto';
-import { FILE_SERVICE, IFileService } from './services/file.service';
+import { FILE_SERVICE, IFileService } from './services/file.interface';
 
 /**
  * 文件服务
