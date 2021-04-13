@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   ParseIntPipe,
   Post,
@@ -10,6 +11,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { FOLDER_SERVICE, IFolderService } from './services/folder.interface';
 
 /**
  * 目录服务
@@ -17,6 +19,11 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('目录服务')
 @Controller('api/v1/folder')
 export class FolderController {
+  constructor(
+    @Inject(FOLDER_SERVICE)
+    private readonly folderService: IFolderService,
+  ) {}
+
   /**
    * 获取目录列表
    * @param search 检索关键字
