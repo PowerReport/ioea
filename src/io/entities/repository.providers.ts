@@ -2,7 +2,7 @@ import { Connection } from 'typeorm';
 import { FileEntity } from './file.entity';
 import { DATABASE_CONNECTION } from '../../db/database.providers';
 import { FolderEntity } from './folder.entity';
-import { RecycleBinEntity } from './recycle-bin.entity';
+import { RecycleBinEntity } from '../../recycle-bin/entities/recycle-bin.entity';
 
 export const FILE_REPOSITORY = 'FILE_REPOSITORY';
 export const FOLDER_REPOSITORY = 'FOLDER_REPOSITORY';
