@@ -20,4 +20,11 @@ export class FileService implements IFileService {
   ): Promise<FileDTO[]> {
     return await this.fileRepository.find();
   }
+
+  async getById(
+    id : number,
+  ): Promise<FileDTO>{
+    return await this.fileRepository.findOne(id);
+  }
 }
+

@@ -16,4 +16,9 @@ export interface IFileService {
     page?: number | undefined,
     pageSize?: number | undefined,
   ): Promise<FileDTO[]>;
+
+  getById(
+    id: number,
+  ): Promise<FileDTO>;
 }
+
