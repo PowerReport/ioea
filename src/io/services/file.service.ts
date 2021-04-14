@@ -4,6 +4,8 @@ import { FileDTO } from '../dto/file.dto';
 import { FileEntity } from '../entities/file.entity';
 import { FILE_REPOSITORY } from '../entities/repository.providers';
 import { IFileService } from './file.interface';
+import { CreateFileDto } from '../dto/create-file.dto';
+import { DataState } from '../entities/data-state';
 
 @Injectable()
 export class FileService implements IFileService {
@@ -25,7 +27,30 @@ export class FileService implements IFileService {
     return await this.fileRepository.findOne(id);
   }
 
-  async post() {
-    return await this.fileRepository.create();
+  async post(createFileDTO: CreateFileDto): Promise<FileDTO> {
+    // TODO: 验证模型，也可以放在 DTO 中用装饰器完成（模型绑定）
+
+    let fileEntity: FileEntity = {
+      ...createFileDTO,
+      id: 0,
+      createTime: new Date(),
+      lastModified: new Date(),
+      creator: '', // TODO: 获取当前用户的id
+      owner: '',
+      location: '',
+      state: DataState.Normal,
+      depth: 0,
+    };
+
+    if (createFileDTO.folderId) {
+      // TODO: 计算目录的深度
+      fileEntity.depth = 0;
+    }
+
+    fileEntity = await this.fileRepository.create(fileEntity);
+    await this.fileRepository.save(fileEntity);
+
+    // TODO: 转换为 DTO
+    return fileEntity;
   }
 }

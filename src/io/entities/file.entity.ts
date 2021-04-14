@@ -42,7 +42,7 @@ export class FileEntity {
   folderId?: number | null | undefined;
 
   @ManyToOne(() => FolderEntity, (f) => f.files)
-  folder: FolderEntity;
+  folder?: FolderEntity | null | undefined;
 
   @Column()
   depth: number;

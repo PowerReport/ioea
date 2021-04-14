@@ -1,4 +1,5 @@
 import { FileDTO } from '../dto/file.dto';
+import { CreateFileDto } from "../dto/create-file.dto";
 
 export const FILE_SERVICE = 'FILE_SERVICE';
 
@@ -19,5 +20,9 @@ export interface IFileService {
 
   getById(id: number): Promise<FileDTO>;
 
-  post();
+  /**
+   * 新增文件
+   * @param createFileDTO 需要新建的文件
+   */
+  post(createFileDTO: CreateFileDto): Promise<FileDTO>;
 }
