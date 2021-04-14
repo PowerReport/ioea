@@ -1,4 +1,5 @@
 import {
+  Bind,
   Body,
   Controller,
   Delete,
@@ -166,9 +167,19 @@ export class FileController {
   /**
    * 新增文件
    */
+  @ApiOkResponse({
+    description: '返回指定id文件',
+    type: FileDTO,
+  })
+  @ApiBadRequestResponse({
+    description: '模型验证失败',
+  })
+  @ApiUnauthorizedResponse({
+    description: '鉴权失败',
+  })
   @Post()
   post() {
-    throw new Error('not implemented.');
+    return this.fileService.post();
   }
 
   /**

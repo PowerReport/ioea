@@ -18,4 +18,6 @@ export interface IFileService {
   ): Promise<FileDTO[]>;
 
   getById(id: number): Promise<FileDTO>;
+
+  post();
 }

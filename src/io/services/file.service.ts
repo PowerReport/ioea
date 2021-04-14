@@ -24,4 +24,8 @@ export class FileService implements IFileService {
   async getById(id: number): Promise<FileDTO> {
     return await this.fileRepository.findOne(id);
   }
+
+  async post() {
+    return await this.fileRepository.create();
+  }
 }
