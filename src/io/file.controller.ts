@@ -24,6 +24,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { CreateFileDTO } from './dto/create.file.dto';
 import { FileDTO } from './dto/file.dto';
 import { FILE_SERVICE, IFileService } from './services/file.interface';
 import {
@@ -167,7 +168,7 @@ export class FileController {
   /**
    * 新增文件
    */
-  @ApiOkResponse({
+   @ApiOkResponse({
     description: '返回指定id文件',
     type: FileDTO,
   })
@@ -178,7 +179,7 @@ export class FileController {
     description: '鉴权失败',
   })
   @Post()
-  post() {
+  post(@Body() createFileDTO : CreateFileDTO) {
     return this.fileService.post();
   }
 
