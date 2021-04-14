@@ -71,6 +71,7 @@ export class FileController {
   @ApiOkResponse({
     description: '返回文件列表',
     type: FileDTO,
+    isArray: true,
   })
   @ApiBadRequestResponse({
     description: '模型验证失败',
@@ -97,9 +98,19 @@ export class FileController {
     description: '文件的id',
     type: Number,
   })
+  @ApiOkResponse({
+    description: '返回指定id文件',
+    type: FileDTO,
+  })
+  @ApiBadRequestResponse({
+    description: '模型验证失败',
+  })
+  @ApiUnauthorizedResponse({
+    description: '鉴权失败',
+  })
   @Get(':id')
-  getById(@Param('id', ParseIntPipe) id: number) {
-    throw new Error('not implemented.');
+  async getById(@Param('id', ParseIntPipe) id: number): Promise<FileDTO> {
+    return await this.fileService.getById(id);
   }
 
   /**
