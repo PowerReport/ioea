@@ -9,9 +9,14 @@ import {
   Post,
   Put,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FOLDER_SERVICE, IFolderService } from './services/folder.interface';
+import {
+  FORM_DATA_MIME_TYPE,
+  FormDataInterceptor,
+} from '../shared/interceptors/form-data.interceptor';
 
 /**
  * 目录服务
@@ -108,7 +113,9 @@ export class FolderController {
    * @param id 目录的id
    * @param name 目录的名称
    */
+  @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/name')
+  @UseInterceptors(FormDataInterceptor)
   rename(@Param('id', ParseIntPipe) id: number, @Body('name') name: string) {
     throw new Error('not implemented.');
   }
@@ -118,20 +125,25 @@ export class FolderController {
    * @param id 目录的id
    * @param parentId 父目录的id
    */
+  @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/move')
+  @UseInterceptors(FormDataInterceptor)
   move(
     @Param('id', ParseIntPipe) id: number,
-    @Query('parentId') parentId?: number | undefined,
+    @Body('parentId') parentId?: number | undefined,
   ) {
     throw new Error('not implemented.');
   }
 
   /**
    * 置顶目录
-   * @param id
+   * @param id 目录的id
+   * @param top 置顶顺序
    */
+  @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/top')
-  top(@Param('id', ParseIntPipe) id: number) {
+  @UseInterceptors(FormDataInterceptor)
+  top(@Param('id', ParseIntPipe) id: number, @Body('top') top: number) {
     throw new Error('not implemented.');
   }
 

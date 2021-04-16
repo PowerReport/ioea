@@ -9,9 +9,11 @@ import {
   Post,
   Put,
   Query,
+  UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiConsumes,
   ApiOkResponse,
   ApiOperation,
   ApiParam,
@@ -21,6 +23,10 @@ import {
 } from '@nestjs/swagger';
 import { FileDTO } from './dto/file.dto';
 import { FILE_SERVICE, IFileService } from './services/file.interface';
+import {
+  FORM_DATA_MIME_TYPE,
+  FormDataInterceptor,
+} from '../shared/interceptors/form-data.interceptor';
 
 /**
  * 文件服务
@@ -193,7 +199,9 @@ export class FileController {
    * @param id 文件的id
    * @param name 文件的名称
    */
+  @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/name')
+  @UseInterceptors(FormDataInterceptor)
   rename(@Param('id', ParseIntPipe) id: number, @Body('name') name: string) {
     throw new Error('not implemented.');
   }
@@ -203,10 +211,12 @@ export class FileController {
    * @param id 文件的id
    * @param parentId 父目录的id
    */
+  @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/move')
+  @UseInterceptors(FormDataInterceptor)
   move(
     @Param('id', ParseIntPipe) id: number,
-    @Query('parentId') parentId?: number | undefined,
+    @Body('parentId') parentId?: number | undefined,
   ) {
     throw new Error('not implemented.');
   }
@@ -214,9 +224,12 @@ export class FileController {
   /**
    * 置顶文件
    * @param id 文件的id
+   * @param top 置顶顺序
    */
+  @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/top')
-  top(@Param('id', ParseIntPipe) id: number) {
+  @UseInterceptors(FormDataInterceptor)
+  top(@Param('id', ParseIntPipe) id: number, @Body('top') top: number) {
     throw new Error('not implemented.');
   }
 
