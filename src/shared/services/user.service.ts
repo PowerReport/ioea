@@ -1,6 +1,8 @@
-import { UserAccessor } from './user.accessor';
-import { UserDTO } from '../../auth/user.dto';
+import { IUserAccessor } from './user.accessor';
+import { UserDTO } from '../dto/user.dto';
+import { Injectable } from '@nestjs/common';
 
-export class UserService implements UserAccessor {
+@Injectable()
+export class UserService implements IUserAccessor {
   current: UserDTO;
 }
