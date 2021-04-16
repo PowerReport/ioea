@@ -1,4 +1,4 @@
-import { UserDTO } from '../../auth/user.dto';
+import { UserDTO } from '../dto/user.dto';
 
 export const USER_ACCESSOR = 'USER_ACCESSOR';
 
