@@ -13,7 +13,7 @@ export interface IObsService {
 
   /**
    * 移除文件
-   * @param target 目标路径
+   * @param source 源路径
    */
-  remove(target: string): Promise<void>;
+  remove(source: string): Promise<void>;
 }
