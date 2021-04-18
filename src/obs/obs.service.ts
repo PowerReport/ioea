@@ -49,8 +49,8 @@ export class ObsService implements IObsService {
     throw new Error('not implemented.');
   }
 
-  async remove(target: string): Promise<void> {
-    const src = new ObsPath(target);
+  async remove(source: string): Promise<void> {
+    const src = new ObsPath(source);
 
     // 删除云端的文件
     if (src.type === ObsPathType.Cloud) {
