@@ -1,13 +1,9 @@
 import { Module } from '@nestjs/common';
-import { RECYCLE_BIN_SERVICE } from './services/recycle-bin.interface';
-import { RecycleBinService } from './services/recycle-bin.service';
+import { repositoryProviders } from './entities/repository.providers';
+import { serviceProviders } from './services/service.providers';
 
 @Module({
-  exports: [
-    {
-      provide: RECYCLE_BIN_SERVICE,
-      useClass: RecycleBinService,
-    },
-  ],
+  providers: [...repositoryProviders, ...serviceProviders],
+  exports: [...serviceProviders],
 })
 export class RecycleBinModule {}
