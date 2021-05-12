@@ -1,21 +1,23 @@
 import { createConnection } from 'typeorm';
+import { ConfigService } from '@nestjs/config';
 
 export const DATABASE_CONNECTION = 'DATABASE_CONNECTION';
 
 export const databaseProviders = [
   {
     provide: DATABASE_CONNECTION,
-    useFactory: async () =>
+    useFactory: async (configService: ConfigService) =>
       await createConnection({
-        type: 'postgres',
-        host: 'localhost',
-        port: 5432,
-        username: 'ioea',
-        password: 'ioea',
-        database: 'ioea',
+        type: configService.get('database.type'),
+        host: configService.get('database.host'),
+        port: configService.get('database.port'),
+        username: configService.get('database.username'),
+        password: configService.get('database.password'),
+        database: configService.get('database.name'),
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-        synchronize: true,
-        entityPrefix: 'ioea_',
+        synchronize: configService.get('database.synchronize'),
+        entityPrefix: configService.get('database.entityPrefix'),
       }),
+    inject: [ConfigService],
   },
 ];

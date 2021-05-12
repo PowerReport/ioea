@@ -2,19 +2,20 @@ import { IObsService } from './obs.interface';
 import { Injectable } from '@nestjs/common';
 import { Client } from 'minio';
 import { ObsPath, ObsPathType } from './obs-path';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ObsService implements IObsService {
   readonly _minioClient: Client;
   readonly _bucketName: string;
 
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     this._minioClient = new Client({
-      endPoint: '127.0.0.1',
-      port: 9000,
-      useSSL: true,
-      accessKey: 'Q3AM3UQ867SPQQA43P2F',
-      secretKey: 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG',
+      endPoint: configService.get('minio.endPoint'),
+      port: configService.get('minio.port'),
+      useSSL: configService.get('minio.useSSL'),
+      accessKey: configService.get('minio.rootUser'),
+      secretKey: configService.get('minio.rootPassword'),
     });
     this._bucketName = 'ioea';
   }

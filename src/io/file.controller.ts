@@ -9,10 +9,12 @@ import {
   Post,
   Put,
   Query,
+  UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBody,
   ApiConsumes,
   ApiOkResponse,
   ApiOperation,
@@ -27,6 +29,7 @@ import {
   FORM_DATA_MIME_TYPE,
   FormDataInterceptor,
 } from '../shared/interceptors/form-data.interceptor';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 /**
  * 文件服务
@@ -172,7 +175,21 @@ export class FileController {
    * 上传文件
    */
   @Post('upload')
-  upload() {
+  @ApiBody({
+    description: '上传的文件',
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'file',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  @ApiConsumes(FORM_DATA_MIME_TYPE)
+  @UseInterceptors(FileInterceptor('file'))
+  upload(@UploadedFile() file: Express.Multer.File) {
     throw new Error('not implemented.');
   }
 
