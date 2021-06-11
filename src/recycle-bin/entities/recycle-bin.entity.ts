@@ -4,7 +4,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { DataState } from '../../io/entities/data-state';
+import { DataState } from './data-state';
 
 @Entity('recycle_bin')
 export class RecycleBinEntity {

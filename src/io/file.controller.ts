@@ -22,8 +22,8 @@ import {
   ApiParam,
   ApiQuery,
   ApiTags,
-  ApiUnauthorizedResponse
-} from "@nestjs/swagger";
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { CreateFileDto } from './dto/create-file.dto';
 import { FileDTO } from './dto/file.dto';
 import { FILE_SERVICE, IFileService } from './services/file.interface';

@@ -1,5 +1,5 @@
 import { FileDTO } from '../dto/file.dto';
-import { CreateFileDto } from "../dto/create-file.dto";
+import { CreateFileDto } from '../dto/create-file.dto';
 
 export const FILE_SERVICE = 'FILE_SERVICE';
 
