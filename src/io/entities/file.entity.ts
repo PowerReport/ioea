@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { DataState } from './data-state';
+import { DataState } from '../../recycle-bin/entities/data-state';
 import { FolderEntity } from './folder.entity';
 
 @Entity('file')
@@ -42,7 +42,7 @@ export class FileEntity {
   folderId?: number | null | undefined;
 
   @ManyToOne(() => FolderEntity, (f) => f.files)
-  folder: FolderEntity;
+  folder?: FolderEntity | null | undefined;
 
   @Column()
   depth: number;

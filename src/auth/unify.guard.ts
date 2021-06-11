@@ -18,7 +18,7 @@ export class UnifyGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     this.userAccessor.current = {
-      id: 1,
+      id: '1',
       username: 'ioea-admin',
       email: 'ioea-admin@ioea.com',
       password: '123456',

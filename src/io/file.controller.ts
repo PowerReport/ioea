@@ -1,4 +1,5 @@
 import {
+  Bind,
   Body,
   Controller,
   Delete,
@@ -23,6 +24,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { CreateFileDto } from './dto/create-file.dto';
 import { FileDTO } from './dto/file.dto';
 import { FILE_SERVICE, IFileService } from './services/file.interface';
 import {
@@ -166,9 +168,28 @@ export class FileController {
   /**
    * 新增文件
    */
+  @ApiOperation({
+    summary: '新增文件',
+    description: '新增文件',
+  })
+  @ApiBody({
+    description: '需要新建的文件',
+    type: CreateFileDto,
+    required: true,
+  })
+  @ApiOkResponse({
+    description: '返回指定id文件',
+    type: FileDTO,
+  })
+  @ApiBadRequestResponse({
+    description: '模型验证失败',
+  })
+  @ApiUnauthorizedResponse({
+    description: '鉴权失败',
+  })
   @Post()
-  post() {
-    throw new Error('not implemented.');
+  post(@Body() createFileDTO: CreateFileDto) {
+    return this.fileService.post(createFileDTO);
   }
 
   /**
