@@ -10,7 +10,7 @@ import {
   TreeParent,
   UpdateDateColumn,
 } from 'typeorm';
-import { DataState } from './data-state';
+import { DataState } from '../../recycle-bin/entities/data-state';
 import { FileEntity } from './file.entity';
 
 @Entity('folder')
