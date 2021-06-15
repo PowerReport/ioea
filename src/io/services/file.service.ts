@@ -4,7 +4,7 @@ import { FileDTO } from '../dto/file.dto';
 import { FileEntity } from '../entities/file.entity';
 import { FILE_REPOSITORY } from '../entities/repository.providers';
 import { IFileService } from './file.interface';
-import { CreateFileDto } from '../dto/create-file.dto';
+import { CreateFileDTO } from '../dto/create-file.dto';
 import { DataState } from '../../recycle-bin/entities/data-state';
 import {
   IUserAccessor,
@@ -53,7 +53,7 @@ export class FileService implements IFileService {
     return await this.fileRepository.findOne(id);
   }
 
-  async post(createFileDTO: CreateFileDto): Promise<FileDTO> {
+  async post(createFileDTO: CreateFileDTO): Promise<FileDTO> {
     // TODO: 验证模型，也可以放在 DTO 中用装饰器完成（模型绑定）
 
     let fileEntity: FileEntity = {
