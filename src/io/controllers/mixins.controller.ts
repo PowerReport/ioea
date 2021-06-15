@@ -32,7 +32,7 @@ export class MixinsController {
    * 删除
    * @param deleteItemDTO 删除的元素
    */
-  @Delete('delete')
+  @Delete()
   deleteItems(@Body() deleteItemDTO: DeleteItemDTO): Promise<void> {
     throw new Error('not implemented.');
   }
