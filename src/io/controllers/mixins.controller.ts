@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CopyItemDTO } from './dto/copy-item.dto';
-import { DeleteItemDTO } from './dto/delete-item.dto';
-import { MoveItemDTO } from './dto/move-item.dto';
+import { CopyItemDTO } from '../dto/copy-item.dto';
+import { DeleteItemDTO } from '../dto/delete-item.dto';
+import { MoveItemDTO } from '../dto/move-item.dto';
 
 /**
  * 混合类型服务，提供目录和文件的拷贝、移动与删除操作

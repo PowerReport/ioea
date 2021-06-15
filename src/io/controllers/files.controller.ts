@@ -1,5 +1,4 @@
 import {
-  Bind,
   Body,
   Controller,
   Delete,
@@ -24,21 +23,21 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { CreateFileDTO } from './dto/create-file.dto';
-import { FileDTO } from './dto/file.dto';
-import { FILE_SERVICE, IFileService } from './services/file.interface';
+import { CreateFileDTO } from '../dto/create-file.dto';
+import { FileDTO } from '../dto/file.dto';
+import { FILE_SERVICE, IFileService } from '../services/file.interface';
 import {
   FORM_DATA_MIME_TYPE,
   FormDataInterceptor,
-} from '../shared/interceptors/form-data.interceptor';
+} from '../../shared/interceptors/form-data.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 /**
  * 文件服务
  */
 @ApiTags('文件服务')
-@Controller('api/v1/file')
-export class FileController {
+@Controller('api/1/files')
+export class FilesController {
   constructor(
     @Inject(FILE_SERVICE)
     private readonly fileService: IFileService,

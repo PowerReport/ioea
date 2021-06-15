@@ -12,18 +12,18 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { FOLDER_SERVICE, IFolderService } from './services/folder.interface';
+import { FOLDER_SERVICE, IFolderService } from '../services/folder.interface';
 import {
   FORM_DATA_MIME_TYPE,
   FormDataInterceptor,
-} from '../shared/interceptors/form-data.interceptor';
+} from '../../shared/interceptors/form-data.interceptor';
 
 /**
  * 目录服务
  */
 @ApiTags('目录服务')
-@Controller('api/v1/folder')
-export class FolderController {
+@Controller('api/1/folders')
+export class FoldersController {
   constructor(
     @Inject(FOLDER_SERVICE)
     private readonly folderService: IFolderService,
