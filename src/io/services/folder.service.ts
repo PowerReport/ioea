@@ -1,5 +1,5 @@
 import { IFolderService } from './folder.interface';
-import { FindConditions, Like, TreeRepository } from 'typeorm';
+import { FindConditions, IsNull, Like, TreeRepository } from 'typeorm';
 import { FolderEntity } from '../entities/folder.entity';
 import { Inject, Injectable } from '@nestjs/common';
 import { FOLDER_REPOSITORY } from '../entities/repository.providers';
@@ -20,7 +20,7 @@ export class FolderService implements IFolderService {
   ) {}
 
   private async getUserViewedFolders(
-    parentId?: number | undefined,
+    parentId?: number | 'root' | undefined,
     search?: string | undefined,
   ): Promise<FolderEntity[]> {
     const conditions: FindConditions<FolderEntity> = {
@@ -29,7 +29,11 @@ export class FolderService implements IFolderService {
     };
 
     if (parentId) {
-      conditions.parentId = parentId;
+      if (parentId === 'root') {
+        conditions.parentId = IsNull();
+      } else {
+        conditions.parentId = parentId;
+      }
     }
 
     if (search) {

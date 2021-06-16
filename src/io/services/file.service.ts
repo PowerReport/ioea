@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { FindConditions, Like, Repository } from 'typeorm';
+import { FindConditions, IsNull, Like, Repository } from 'typeorm';
 import { FileDTO } from '../dto/file.dto';
 import { FileEntity } from '../entities/file.entity';
 import { FILE_REPOSITORY } from '../entities/repository.providers';
@@ -21,7 +21,7 @@ export class FileService implements IFileService {
   ) {}
 
   private async getUserViewedFiles(
-    folderId?: number | undefined,
+    folderId?: number | 'root' | undefined,
     search?: string | undefined,
   ): Promise<FileEntity[]> {
     const conditions: FindConditions<FileEntity> = {
@@ -30,7 +30,11 @@ export class FileService implements IFileService {
     };
 
     if (folderId) {
-      conditions.folderId = folderId;
+      if (folderId === 'root') {
+        conditions.folderId = IsNull();
+      } else {
+        conditions.folderId = folderId;
+      }
     }
 
     if (search) {
