@@ -77,7 +77,7 @@ export class FileService implements IFileService {
       fileEntity.depth = 0;
     }
 
-    fileEntity = await this.fileRepository.create(fileEntity);
+    fileEntity = this.fileRepository.create(fileEntity);
     await this.fileRepository.save(fileEntity);
 
     // TODO: 转换为 DTO
