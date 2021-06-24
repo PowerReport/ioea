@@ -5,7 +5,7 @@ import { MoveItemDTO } from '../dto/move-item.dto';
 export const MIXIN_SERVICE = 'MixinService';
 
 /**
- * 混合类型服务，提供目录和文件的拷贝、移动与删除操作
+ * 混合类型服务，提供文件夹和文件的拷贝、移动与删除操作
  */
 export interface IMixinService {
   /**

@@ -73,7 +73,7 @@ export class FileService implements IFileService {
     };
 
     if (createFileDTO.folderId) {
-      // TODO: 计算目录的深度
+      // TODO: 计算文件夹的深度
       fileEntity.depth = 0;
     }
 

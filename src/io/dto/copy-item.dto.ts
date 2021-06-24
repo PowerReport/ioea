@@ -9,7 +9,7 @@ export class CopyItemDTO {
   items: IdDTO[];
 
   @ApiProperty({
-    description: '目标目录的 ID。root 表示根目录。',
+    description: '目标文件夹的 ID。root 表示根文件夹。',
     type: String,
   })
   targetId: string | 'root';
@@ -31,12 +31,12 @@ export enum CopyType {
   Warn = 0,
 
   /**
-   * 替换。合并目录，并替换相同名称的文件。
+   * 替换。合并文件夹，并替换相同名称的文件。
    */
   Override = 1,
 
   /**
-   * 跳过。合并目录，并跳过相同名称的文件。
+   * 跳过。合并文件夹，并跳过相同名称的文件。
    */
   Skip = 2,
 }

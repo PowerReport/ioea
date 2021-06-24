@@ -246,7 +246,7 @@ export class FilesController {
   /**
    * 移动文件
    * @param id 文件的id
-   * @param parentId 父目录的id
+   * @param parentId 父文件夹的id
    */
   @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/move')

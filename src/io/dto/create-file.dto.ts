@@ -17,7 +17,7 @@ export class CreateFileDTO {
 
   @ApiProperty({
     name: 'folderId',
-    description: '文件的目录的id',
+    description: '文件的文件夹的id',
     type: Number,
     required: false,
   })

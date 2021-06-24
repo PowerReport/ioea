@@ -25,7 +25,7 @@ export enum DeletionType {
   Cascade = 0,
 
   /**
-   * 仅目标目录，目标目录下的内容将移动到根目录。
+   * 仅目标文件夹，目标文件夹下的内容将移动到根文件夹。
    */
   TargetFolderOnly = 1,
 }

@@ -19,9 +19,9 @@ import {
 } from '../../shared/interceptors/form-data.interceptor';
 
 /**
- * 目录服务
+ * 文件夹服务
  */
-@ApiTags('目录服务')
+@ApiTags('文件夹服务')
 @Controller('api/1/folders')
 export class FoldersController {
   constructor(
@@ -30,7 +30,7 @@ export class FoldersController {
   ) {}
 
   /**
-   * 获取目录列表
+   * 获取文件夹列表
    * @param search 检索关键字
    * @param sortBy 排序
    * @param page 页码
@@ -47,8 +47,8 @@ export class FoldersController {
   }
 
   /**
-   * 获取目录详情
-   * @param id 目录的id
+   * 获取文件夹详情
+   * @param id 文件夹的id
    */
   @Get(':id')
   getById(@Param('id', ParseIntPipe) id: number) {
@@ -56,8 +56,8 @@ export class FoldersController {
   }
 
   /**
-   * 获取目录下的文件列表
-   * @param id 目录的id
+   * 获取文件夹下的文件列表
+   * @param id 文件夹的id
    */
   @Get(':id/files')
   getFiles(@Param('id', ParseIntPipe) id: number) {
@@ -65,8 +65,8 @@ export class FoldersController {
   }
 
   /**
-   * 获取目录下的目录列表
-   * @param id 目录的id
+   * 获取文件夹下的文件夹列表
+   * @param id 文件夹的id
    */
   @Get(':id/directories')
   getDirectories(@Param('id', ParseIntPipe) id: number) {
@@ -74,8 +74,8 @@ export class FoldersController {
   }
 
   /**
-   * 获取目录下的目录和文件列表
-   * @param id 目录的id
+   * 获取文件夹下的文件夹和文件列表
+   * @param id 文件夹的id
    */
   @Get(':id/children')
   getChildren(@Param('id', ParseIntPipe) id: number) {
@@ -83,8 +83,8 @@ export class FoldersController {
   }
 
   /**
-   * 获取目录的父目录
-   * @param id 目录的id
+   * 获取文件夹的父文件夹
+   * @param id 文件夹的id
    */
   @Get(':id/parent')
   getParent(@Param('id', ParseIntPipe) id: number) {
@@ -92,7 +92,7 @@ export class FoldersController {
   }
 
   /**
-   * 新增目录
+   * 新增文件夹
    */
   @Post()
   post() {
@@ -100,8 +100,8 @@ export class FoldersController {
   }
 
   /**
-   * 更新目录
-   * @param id 目录的id
+   * 更新文件夹
+   * @param id 文件夹的id
    */
   @Put(':id')
   put(@Param('id', ParseIntPipe) id: number) {
@@ -109,9 +109,9 @@ export class FoldersController {
   }
 
   /**
-   * 重命名目录
-   * @param id 目录的id
-   * @param name 目录的名称
+   * 重命名文件夹
+   * @param id 文件夹的id
+   * @param name 文件夹的名称
    */
   @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/name')
@@ -121,9 +121,9 @@ export class FoldersController {
   }
 
   /**
-   * 移动目录
-   * @param id 目录的id
-   * @param parentId 父目录的id
+   * 移动文件夹
+   * @param id 文件夹的id
+   * @param parentId 父文件夹的id
    */
   @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/move')
@@ -136,8 +136,8 @@ export class FoldersController {
   }
 
   /**
-   * 置顶目录
-   * @param id 目录的id
+   * 置顶文件夹
+   * @param id 文件夹的id
    * @param top 置顶顺序
    */
   @ApiConsumes(FORM_DATA_MIME_TYPE)
@@ -148,8 +148,8 @@ export class FoldersController {
   }
 
   /**
-   * 删除目录
-   * @param id 目录的id
+   * 删除文件夹
+   * @param id 文件夹的id
    */
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {

@@ -8,7 +8,7 @@ export class IdDTO {
   id: string;
 
   @ApiProperty({
-    description: '类型。文件或目录。',
+    description: '类型。文件或文件夹。',
     type: String,
   })
   type: 'file' | 'folder';

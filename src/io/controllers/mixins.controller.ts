@@ -23,7 +23,7 @@ export class MixinsController {
   @Post('copy')
   @ApiOperation({
     summary: '拷贝',
-    description: '拷贝目录或文件',
+    description: '拷贝文件夹或文件',
   })
   @ApiBody({
     description: '拷贝的元素',
@@ -43,7 +43,7 @@ export class MixinsController {
   @Post('move')
   @ApiOperation({
     summary: '移动',
-    description: '移动目录或文件',
+    description: '移动文件夹或文件',
   })
   @ApiBody({
     description: '移动的元素',
@@ -63,7 +63,7 @@ export class MixinsController {
   @Delete()
   @ApiOperation({
     summary: '删除',
-    description: '删除目录或文件',
+    description: '删除文件夹或文件',
   })
   @ApiBody({
     description: '删除的元素',
