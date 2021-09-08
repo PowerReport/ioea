@@ -1,3 +1,4 @@
+import { Validate } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -7,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DataState } from '../../recycle-bin/entities/data-state';
+import { ValidateExt, ValidateName } from '../validators/file-validator';
 import { FolderEntity } from './folder.entity';
 
 /**
@@ -24,12 +26,14 @@ export class FileEntity {
    * 文件名称
    */
   @Column()
+  @Validate(ValidateName)
   name: string;
 
   /**
    * 文件扩展名
    */
   @Column()
+  @Validate(ValidateExt)
   ext: string;
 
   /**
