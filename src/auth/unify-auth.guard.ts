@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { IUserAccessor, USER_ACCESSOR } from '../shared/services/user.accessor';
 
 @Injectable()
-export class UnifyGuard implements CanActivate {
+export class UnifyAuthGuard implements CanActivate {
   constructor(
     @Inject(USER_ACCESSOR)
     private readonly userAccessor: IUserAccessor,

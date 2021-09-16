@@ -2,7 +2,7 @@
   "name": "ioea",
   "version": "0.0.1",
   "description": "The goal of this project is to make the easiest, fastest, and most painless file system.",
-  "author": "drsh(1340260725@qq.com)",
+  "author": "drsh",
   "private": false,
   "license": "MIT",
   "scripts": {

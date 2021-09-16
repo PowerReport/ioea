@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
-import { UnifyGuard } from './unify.guard';
+import { UnifyAuthGuard } from './unify-auth.guard';
 import { SharedModule } from '../shared/shared.module';
 
 @Module({
@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
   providers: [
     {
       provide: APP_GUARD,
-      useClass: UnifyGuard,
+      useClass: UnifyAuthGuard,
     },
   ],
 })

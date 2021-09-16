@@ -4,7 +4,7 @@ import { UserService } from './services/user.service';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './configuration/configuration';
 
-const userAccessorProvider = {
+const USER_ACCESSOR_PROVIDER = {
   provide: USER_ACCESSOR,
   useClass: UserService,
 };
@@ -15,7 +15,7 @@ const userAccessorProvider = {
       load: [configuration],
     }),
   ],
-  providers: [userAccessorProvider],
-  exports: [userAccessorProvider],
+  providers: [USER_ACCESSOR_PROVIDER],
+  exports: [USER_ACCESSOR_PROVIDER],
 })
 export class SharedModule {}

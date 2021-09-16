@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { isAbsolute } from 'path';
 
 export class ObsPath {
   private readonly _src: string;
@@ -15,7 +15,7 @@ export class ObsPath {
 
   private static isLocal(src: string): boolean {
     // 判断是否为绝对路径，如果是绝对路径则是本地路径，或者是否以 local: 开头
-    if (path.isAbsolute(src) || src.startsWith(ObsPathType.Local)) {
+    if (isAbsolute(src) || src.startsWith(ObsPathType.Local)) {
       return true;
     }
 
