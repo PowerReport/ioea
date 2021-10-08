@@ -21,15 +21,15 @@ export class ObsService implements IObsService {
   }
 
   async copy(source: string, target: string): Promise<void> {
-    const src1 = new ObsPath(source);
-    const src2 = new ObsPath(target);
+    const path1 = new ObsPath(source);
+    const path2 = new ObsPath(target);
 
     // 上传文件至云端
-    if (src1.type === ObsPathType.Local && src2.type === ObsPathType.Cloud) {
+    if (path1.type === ObsPathType.Local && path2.type === ObsPathType.Cloud) {
       await this._minioClient.fPutObject(
         this._bucketName,
-        src2.realPath,
-        src1.realPath,
+        path2.realPath,
+        path1.realPath,
         {
           'Content-Type': 'application/zip',
         },
@@ -38,11 +38,11 @@ export class ObsService implements IObsService {
     }
 
     // 下载文件至本地
-    if (src1.type === ObsPathType.Cloud && src2.type === ObsPathType.Local) {
+    if (path1.type === ObsPathType.Cloud && path2.type === ObsPathType.Local) {
       await this._minioClient.fGetObject(
         this._bucketName,
-        src1.realPath,
-        src2.realPath,
+        path1.realPath,
+        path2.realPath,
       );
       return;
     }
@@ -51,14 +51,14 @@ export class ObsService implements IObsService {
   }
 
   async remove(source: string): Promise<void> {
-    const src = new ObsPath(source);
+    const path = new ObsPath(source);
 
     // 删除云端的文件
-    if (src.type === ObsPathType.Cloud) {
-      await this._minioClient.removeObject(this._bucketName, src.realPath);
+    if (path.type === ObsPathType.Cloud) {
+      await this._minioClient.removeObject(this._bucketName, path.realPath);
       return;
     }
 
-    throw new Error('not implemented.');
+    throw new Error('not supported.');
   }
 }
