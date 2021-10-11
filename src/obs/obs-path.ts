@@ -1,4 +1,5 @@
 import { isAbsolute } from 'path';
+import { Oops } from '../shared/friendly-except/oops';
 
 export class ObsPath {
   private readonly _realPath: string;
@@ -6,7 +7,7 @@ export class ObsPath {
 
   constructor(path: string) {
     if (!path) {
-      throw new Error('path cannot be null.');
+      throw Oops.oh('path cannot be null.');
     }
 
     this._type = ObsPath.isLocal(path) ? ObsPathType.Local : ObsPathType.Cloud;
@@ -24,7 +25,7 @@ export class ObsPath {
       return false;
     }
 
-    throw new Error('not supported.');
+    throw Oops.oh('not supported.');
   }
 
   private static toRealFilePath(path: string): string {
