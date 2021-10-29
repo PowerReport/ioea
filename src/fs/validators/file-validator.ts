@@ -1,4 +1,4 @@
-import { Oops } from '../../shared/friendly-except/oops';
+import { Oops } from '../../common/friendly-except/oops';
 
 const FileNameRegex = /^.?([a-zA-Z0-9-_@.]|[^\x00-\xff])+$/;
 const FileExtRegex = /^\.[a-zA-Z]+$/;

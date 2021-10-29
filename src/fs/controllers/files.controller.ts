@@ -29,7 +29,7 @@ import { FILE_SERVICE, IFileService } from '../services/file.interface';
 import {
   FORM_DATA_MIME_TYPE,
   FormDataInterceptor,
-} from '../../shared/interceptors/form-data.interceptor';
+} from '../../common/interceptors/form-data.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 /**

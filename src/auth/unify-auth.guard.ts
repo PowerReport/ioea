@@ -5,7 +5,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { IUserAccessor, USER_ACCESSOR } from '../shared/services/user.accessor';
+import { IUserAccessor, USER_ACCESSOR } from '../user/services/user.accessor';
 
 @Injectable()
 export class UnifyAuthGuard implements CanActivate {

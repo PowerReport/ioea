@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { setupSwagger } from './common/open-api/setup';
 
 async function bootstrap() {
   const logger = new Logger(bootstrap.name);
@@ -34,15 +34,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
-  const config = new DocumentBuilder()
-    .setTitle('ioea')
-    .setDescription(
-      'The goal of this project is to make the easiest, fastest, and most painless file system.',
-    )
-    .setVersion('v1')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  setupSwagger(app);
 
   await app.listen(3000);
   logger.log('Now listening on: http://localhost:3000.');

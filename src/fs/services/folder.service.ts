@@ -2,18 +2,15 @@ import { IFolderService } from './folder.interface';
 import { FindConditions, IsNull, Like, TreeRepository } from 'typeorm';
 import { FolderEntity } from '../entities/folder.entity';
 import { Inject, Injectable } from '@nestjs/common';
-import { FOLDER_REPOSITORY } from '../entities/repository.providers';
-import { DataState } from '../../recycle-bin/entities/data-state';
-import {
-  IUserAccessor,
-  USER_ACCESSOR,
-} from 'src/shared/services/user.accessor';
+import { DataState } from '../../trash/entities/data-state';
+import { IUserAccessor, USER_ACCESSOR } from 'src/user/services/user.accessor';
 import { FolderDTO } from '../dto/folder.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class FolderService implements IFolderService {
   constructor(
-    @Inject(FOLDER_REPOSITORY)
+    @InjectRepository(FolderEntity)
     private readonly folderRepository: TreeRepository<FolderEntity>,
     @Inject(USER_ACCESSOR)
     private readonly userAccessor: IUserAccessor,

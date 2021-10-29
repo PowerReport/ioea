@@ -2,19 +2,16 @@ import { Inject, Injectable } from '@nestjs/common';
 import { FindConditions, IsNull, Like, Repository } from 'typeorm';
 import { FileDTO } from '../dto/file.dto';
 import { FileEntity } from '../entities/file.entity';
-import { FILE_REPOSITORY } from '../entities/repository.providers';
 import { IFileService } from './file.interface';
 import { CreateFileDTO } from '../dto/create-file.dto';
-import { DataState } from '../../recycle-bin/entities/data-state';
-import {
-  IUserAccessor,
-  USER_ACCESSOR,
-} from 'src/shared/services/user.accessor';
+import { DataState } from '../../trash/entities/data-state';
+import { IUserAccessor, USER_ACCESSOR } from 'src/user/services/user.accessor';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class FileService implements IFileService {
   constructor(
-    @Inject(FILE_REPOSITORY)
+    @InjectRepository(FileEntity)
     private readonly fileRepository: Repository<FileEntity>,
     @Inject(USER_ACCESSOR)
     private readonly userAccessor: IUserAccessor,

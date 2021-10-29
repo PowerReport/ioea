@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { FileStorageModule } from './file-storage/file-storage.module';
+import { FsModule } from './fs/fs.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [FileStorageModule, SharedModule, AuthModule],
+  imports: [FsModule, SharedModule, AuthModule, UserModule],
 })
 export class AppModule {}

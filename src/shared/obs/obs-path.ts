@@ -1,17 +1,17 @@
 import { isAbsolute } from 'path';
-import { Oops } from '../shared/friendly-except/oops';
+import { Oops } from '../../common/friendly-except/oops';
 
 export class ObsPath {
-  private readonly _realPath: string;
-  private readonly _type: ObsPathType;
+  public readonly realPath: string;
+  public readonly type: ObsPathType;
 
   constructor(path: string) {
     if (!path) {
       throw Oops.oh('path cannot be null.');
     }
 
-    this._type = ObsPath.isLocal(path) ? ObsPathType.Local : ObsPathType.Cloud;
-    this._realPath = ObsPath.toRealFilePath(this._realPath);
+    this.type = ObsPath.isLocal(path) ? ObsPathType.Local : ObsPathType.Cloud;
+    this.realPath = ObsPath.toRealFilePath(this.realPath);
   }
 
   private static isLocal(path: string): boolean {
@@ -33,14 +33,6 @@ export class ObsPath {
       ObsPath.isLocal(path) ? ObsPathType.Local : ObsPathType.Cloud,
       '',
     );
-  }
-
-  get realPath(): string {
-    return this._realPath;
-  }
-
-  get type(): ObsPathType {
-    return this._type;
   }
 }
 
