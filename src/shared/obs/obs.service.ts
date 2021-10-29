@@ -1,23 +1,29 @@
 import { IObsService } from './obs.interface';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Client } from 'minio';
 import { ObsPath, ObsPathType } from './obs-path';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ObsService implements IObsService {
-  readonly _minioClient: Client;
-  readonly _bucketName: string;
+  private readonly logger = new Logger(ObsService.name);
+
+  private readonly client: Client;
+  private readonly bucketName: string;
 
   constructor(private readonly configService: ConfigService) {
-    this._minioClient = new Client({
-      endPoint: configService.get('minio.endPoint'),
-      port: configService.get('minio.port'),
-      useSSL: configService.get('minio.useSSL'),
-      accessKey: configService.get('minio.rootUser'),
-      secretKey: configService.get('minio.rootPassword'),
-    });
-    this._bucketName = 'ioea';
+    try {
+      this.client = new Client({
+        endPoint: configService.get('MINIO_END_POINT'),
+        port: configService.get('MINIO_PORT'),
+        useSSL: configService.get('MINIO_USE_SSL') === 'true',
+        accessKey: configService.get('MINIO_ROOT_USER'),
+        secretKey: configService.get('MINIO_ROOT_PASSWORD'),
+      });
+    } catch (err) {
+      this.logger.error('连接 Minio 失败', err.stack);
+    }
+    this.bucketName = 'ioea';
   }
 
   async copy(source: string, target: string): Promise<void> {
@@ -26,8 +32,8 @@ export class ObsService implements IObsService {
 
     // 上传文件至云端
     if (path1.type === ObsPathType.Local && path2.type === ObsPathType.Cloud) {
-      await this._minioClient.fPutObject(
-        this._bucketName,
+      await this.client.fPutObject(
+        this.bucketName,
         path2.realPath,
         path1.realPath,
         {
@@ -39,8 +45,8 @@ export class ObsService implements IObsService {
 
     // 下载文件至本地
     if (path1.type === ObsPathType.Cloud && path2.type === ObsPathType.Local) {
-      await this._minioClient.fGetObject(
-        this._bucketName,
+      await this.client.fGetObject(
+        this.bucketName,
         path1.realPath,
         path2.realPath,
       );
@@ -55,7 +61,7 @@ export class ObsService implements IObsService {
 
     // 删除云端的文件
     if (path.type === ObsPathType.Cloud) {
-      await this._minioClient.removeObject(this._bucketName, path.realPath);
+      await this.client.removeObject(this.bucketName, path.realPath);
       return;
     }
 

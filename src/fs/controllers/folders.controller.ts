@@ -16,7 +16,7 @@ import { FOLDER_SERVICE, IFolderService } from '../services/folder.interface';
 import {
   FORM_DATA_MIME_TYPE,
   FormDataInterceptor,
-} from '../../shared/interceptors/form-data.interceptor';
+} from '../../common/interceptors/form-data.interceptor';
 
 /**
  * 文件夹服务

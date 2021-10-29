@@ -2,18 +2,23 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
+  Tree,
+  TreeChildren,
+  TreeLevelColumn,
+  TreeParent,
   UpdateDateColumn,
 } from 'typeorm';
-import { DataState } from '../../recycle-bin/entities/data-state';
-import { FolderEntity } from './folder.entity';
+import { DataState } from '../../trash/entities/data-state';
+import { FileEntity } from './file.entity';
 
 /**
- * 文件实体
+ * 文件夹实体
  */
-@Entity('file')
-export class FileEntity {
+@Entity('folder')
+@Tree('materialized-path')
+export class FolderEntity {
   /**
    * 实体主键
    */
@@ -21,25 +26,13 @@ export class FileEntity {
   id: number;
 
   /**
-   * 文件名称
+   * 文件夹名称
    */
   @Column()
   name: string;
 
   /**
-   * 文件扩展名
-   */
-  @Column()
-  ext: string;
-
-  /**
-   * 文件存储路径
-   */
-  @Column()
-  location: string;
-
-  /**
-   * 文件状态
+   * 文件夹状态
    */
   @Column()
   state: DataState;
@@ -72,17 +65,29 @@ export class FileEntity {
    * 所属文件夹id
    */
   @Column({ nullable: true })
-  folderId?: number | null | undefined;
+  parentId?: number | null | undefined;
 
   /**
    * 所属文件夹
    */
-  @ManyToOne(() => FolderEntity, (f) => f.files)
-  folder?: FolderEntity | null | undefined;
+  @TreeParent()
+  parent: FolderEntity;
 
   /**
-   * 文件深度
+   * 子文件夹
    */
-  @Column()
+  @TreeChildren()
+  directories: FolderEntity[];
+
+  /**
+   * 子文件
+   */
+  @OneToMany(() => FileEntity, (f) => f.folder)
+  files: FileEntity[];
+
+  /**
+   * 文件夹深度
+   */
+  @TreeLevelColumn()
   depth: number;
 }

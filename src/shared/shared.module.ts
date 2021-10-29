@@ -1,21 +1,37 @@
 import { Module } from '@nestjs/common';
-import { USER_ACCESSOR } from './services/user.accessor';
-import { UserService } from './services/user.service';
-import { ConfigModule } from '@nestjs/config';
-import configuration from './configuration/configuration';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { OBS_SERVICE } from './obs/obs.interface';
+import { ObsService } from './obs/obs.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-const USER_ACCESSOR_PROVIDER = {
-  provide: USER_ACCESSOR,
-  useClass: UserService,
-};
+const services = [
+  {
+    provide: OBS_SERVICE,
+    useClass: ObsService,
+  },
+];
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      load: [configuration],
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        // type: configService.get('DATABASE_TYPE'),
+        type: 'postgres', // TODO: 这个字段是联合类型，所以必须明确指定
+        host: configService.get('DATABASE_HOST'),
+        port: configService.get('DATABASE_PORT'),
+        username: configService.get('DATABASE_USERNAME'),
+        password: configService.get('DATABASE_PASSWORD'),
+        database: configService.get('DATABASE_NAME'),
+        synchronize: configService.get('DATABASE_SYNCHRONIZE') === 'true',
+        entityPrefix: configService.get('DATABASE_ENTITY_PREFIX'),
+        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      }),
+      inject: [ConfigService],
     }),
   ],
-  providers: [USER_ACCESSOR_PROVIDER],
-  exports: [USER_ACCESSOR_PROVIDER],
+  providers: services,
+  exports: services,
 })
 export class SharedModule {}

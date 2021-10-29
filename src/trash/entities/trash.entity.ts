@@ -6,8 +6,8 @@ import {
 } from 'typeorm';
 import { DataState } from './data-state';
 
-@Entity('recycle_bin')
-export class RecycleBinEntity {
+@Entity('trash')
+export class TrashEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
