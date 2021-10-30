@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { DataState } from '../../trash/entities/data-state';
-import { FolderEntity } from './folder.entity';
+import { DirEntity } from './dir.entity';
 
 /**
  * 文件实体
@@ -15,31 +15,25 @@ import { FolderEntity } from './folder.entity';
 @Entity('file')
 export class FileEntity {
   /**
-   * 实体主键
+   * 标识
    */
   @PrimaryGeneratedColumn()
   id: number;
 
   /**
-   * 文件名称
+   * 名称
    */
   @Column()
   name: string;
 
   /**
-   * 文件扩展名
-   */
-  @Column()
-  ext: string;
-
-  /**
-   * 文件存储路径
+   * 存储路径
    */
   @Column()
   location: string;
 
   /**
-   * 文件状态
+   * 状态
    */
   @Column()
   state: DataState;
@@ -69,19 +63,19 @@ export class FileEntity {
   lastModified: Date;
 
   /**
-   * 所属文件夹id
+   * 所属目录的 id
    */
   @Column({ nullable: true })
-  folderId?: number | null | undefined;
+  baseDirId?: number | null | undefined;
 
   /**
-   * 所属文件夹
+   * 所属目录
    */
-  @ManyToOne(() => FolderEntity, (f) => f.files)
-  folder?: FolderEntity | null | undefined;
+  @ManyToOne(() => DirEntity, (f) => f.files)
+  baseDir?: DirEntity | null | undefined;
 
   /**
-   * 文件深度
+   * 深度
    */
   @Column()
   depth: number;

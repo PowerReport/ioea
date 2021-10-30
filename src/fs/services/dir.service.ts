@@ -1,17 +1,17 @@
-import { IFolderService } from './folder.interface';
+import { IDirService } from './dir.interface';
 import { FindConditions, IsNull, Like, TreeRepository } from 'typeorm';
-import { FolderEntity } from '../entities/folder.entity';
+import { DirEntity } from '../entities/dir.entity';
 import { Inject, Injectable } from '@nestjs/common';
 import { DataState } from '../../trash/entities/data-state';
 import { IUserAccessor, USER_ACCESSOR } from 'src/user/services/user.accessor';
-import { FolderDTO } from '../dto/folder.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ItemDto } from '../dto/item.dto';
 
 @Injectable()
-export class FolderService implements IFolderService {
+export class DirService implements IDirService {
   constructor(
-    @InjectRepository(FolderEntity)
-    private readonly folderRepository: TreeRepository<FolderEntity>,
+    @InjectRepository(DirEntity)
+    private readonly folderRepository: TreeRepository<DirEntity>,
     @Inject(USER_ACCESSOR)
     private readonly userAccessor: IUserAccessor,
   ) {}
@@ -19,17 +19,17 @@ export class FolderService implements IFolderService {
   private async getUserViewedFolders(
     parentId?: number | 'root' | undefined,
     search?: string | undefined,
-  ): Promise<FolderEntity[]> {
-    const conditions: FindConditions<FolderEntity> = {
+  ): Promise<DirEntity[]> {
+    const conditions: FindConditions<DirEntity> = {
       state: DataState.Normal,
       owner: this.userAccessor.current.id,
     };
 
     if (parentId) {
       if (parentId === 'root') {
-        conditions.parentId = IsNull();
+        conditions.baseDirId = IsNull();
       } else {
-        conditions.parentId = parentId;
+        conditions.baseDirId = parentId;
       }
     }
 
@@ -40,7 +40,7 @@ export class FolderService implements IFolderService {
     return await this.folderRepository.find(conditions);
   }
 
-  async getAll(): Promise<FolderDTO[]> {
-    return await this.getUserViewedFolders();
+  post(): Promise<ItemDto> {
+    throw new Error('not implemented.');
   }
 }

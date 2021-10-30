@@ -14,25 +14,25 @@ import { DataState } from '../../trash/entities/data-state';
 import { FileEntity } from './file.entity';
 
 /**
- * 文件夹实体
+ * 目录实体
  */
-@Entity('folder')
+@Entity('dir')
 @Tree('materialized-path')
-export class FolderEntity {
+export class DirEntity {
   /**
-   * 实体主键
+   * 标识
    */
   @PrimaryGeneratedColumn()
   id: number;
 
   /**
-   * 文件夹名称
+   * 名称
    */
   @Column()
   name: string;
 
   /**
-   * 文件夹状态
+   * 状态
    */
   @Column()
   state: DataState;
@@ -62,31 +62,31 @@ export class FolderEntity {
   lastModified: Date;
 
   /**
-   * 所属文件夹id
+   * 所属目录的 id
    */
   @Column({ nullable: true })
-  parentId?: number | null | undefined;
+  baseDirId?: number | null | undefined;
 
   /**
-   * 所属文件夹
+   * 所属目录
    */
   @TreeParent()
-  parent: FolderEntity;
+  baseDir?: DirEntity | null | undefined;
 
   /**
-   * 子文件夹
+   * 子目录
    */
   @TreeChildren()
-  directories: FolderEntity[];
+  subDirs?: DirEntity[] | null | undefined;
 
   /**
    * 子文件
    */
-  @OneToMany(() => FileEntity, (f) => f.folder)
-  files: FileEntity[];
+  @OneToMany(() => FileEntity, (f) => f.baseDir)
+  files?: FileEntity[] | null | undefined;
 
   /**
-   * 文件夹深度
+   * 深度
    */
   @TreeLevelColumn()
   depth: number;

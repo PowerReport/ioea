@@ -1,6 +1,7 @@
 import { CopyItemDTO } from '../dto/copy-item.dto';
 import { DeleteItemDTO } from '../dto/delete-item.dto';
 import { MoveItemDTO } from '../dto/move-item.dto';
+import { ItemDto } from '../dto/item.dto';
 
 export const MIXIN_SERVICE = 'MixinService';
 
@@ -12,13 +13,13 @@ export interface IMixinService {
    * 拷贝
    * @param copyItemDTO 拷贝的元素
    */
-  copyItems(copyItemDTO: CopyItemDTO): Promise<void>;
+  copyItems(copyItemDTO: CopyItemDTO): Promise<ItemDto>;
 
   /**
    * 移动
    * @param moveItemDTO 移动的元素
    */
-  moveItems(moveItemDTO: MoveItemDTO): Promise<void>;
+  moveItems(moveItemDTO: MoveItemDTO): Promise<ItemDto>;
 
   /**
    * 删除
