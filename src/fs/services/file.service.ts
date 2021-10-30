@@ -1,80 +1,67 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { FindConditions, IsNull, Like, Repository } from 'typeorm';
-import { FileDTO } from '../dto/file.dto';
+import { Repository } from 'typeorm';
 import { FileEntity } from '../entities/file.entity';
 import { IFileService } from './file.interface';
-import { CreateFileDTO } from '../dto/create-file.dto';
+import { CreateItemDto } from '../dto/create-item.dto';
 import { DataState } from '../../trash/entities/data-state';
 import { IUserAccessor, USER_ACCESSOR } from 'src/user/services/user.accessor';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DirEntity } from '../entities/dir.entity';
+import { Oops } from '../../common/friendly-except/oops';
 
 @Injectable()
 export class FileService implements IFileService {
   constructor(
     @InjectRepository(FileEntity)
     private readonly fileRepository: Repository<FileEntity>,
+    @InjectRepository(DirEntity)
+    private readonly dirRepository: Repository<DirEntity>,
     @Inject(USER_ACCESSOR)
     private readonly userAccessor: IUserAccessor,
   ) {}
 
-  private async getUserViewedFiles(
-    folderId?: number | 'root' | undefined,
-    search?: string | undefined,
-  ): Promise<FileEntity[]> {
-    const conditions: FindConditions<FileEntity> = {
-      state: DataState.Normal,
-      owner: this.userAccessor.current.id,
-    };
-
-    if (folderId) {
-      if (folderId === 'root') {
-        conditions.folderId = IsNull();
-      } else {
-        conditions.folderId = folderId;
-      }
+  private async getCanViewedDir(id: 'root' | number): Promise<DirEntity> {
+    if (id === 'root') {
+      return null;
     }
 
-    if (search) {
-      conditions.name = Like(`%${search}%`);
+    const dirEntity = await this.dirRepository.findOne(id);
+
+    this.dirCanView(dirEntity);
+
+    return dirEntity;
+  }
+
+  private dirCanView(dir: DirEntity): void {
+    if (dir.state !== DataState.Normal) {
+      throw Oops.bah('指定目录已被删除');
     }
 
-    return await this.fileRepository.find(conditions);
+    if (dir.owner !== this.userAccessor.current.id) {
+      throw Oops.bah('您没有足够的权限访问指定目录');
+    }
   }
 
-  async getAll(
-    search?: string | undefined,
-    sortBy?: string | undefined,
-    page?: number | undefined,
-    pageSize?: number | undefined,
-  ): Promise<FileDTO[]> {
-    return await this.getUserViewedFiles(undefined, search);
-  }
+  async post(createItemDto: CreateItemDto): Promise<FileEntity> {
+    // TODO: 验证模型
 
-  async getById(id: number): Promise<FileDTO> {
-    return await this.fileRepository.findOne(id);
-  }
+    const baseDir =
+      createItemDto.baseDirId &&
+      (await this.getCanViewedDir(createItemDto.baseDirId));
 
-  async post(createFileDTO: CreateFileDTO): Promise<FileDTO> {
-    // TODO: 验证模型，也可以放在 DTO 中用装饰器完成（模型绑定）
+    // TODO: 计算文件夹的深度
+    const depth = 0;
 
-    let fileEntity: FileEntity = {
-      ...createFileDTO,
-      id: 0,
+    const fileEntity = this.fileRepository.create({
+      location: '',
       createTime: new Date(),
       lastModified: new Date(),
       creator: this.userAccessor.current.id,
       owner: this.userAccessor.current.id,
-      location: '',
       state: DataState.Normal,
-      depth: 0,
-    };
-
-    if (createFileDTO.folderId) {
-      // TODO: 计算文件夹的深度
-      fileEntity.depth = 0;
-    }
-
-    fileEntity = this.fileRepository.create(fileEntity);
+      baseDir: baseDir,
+      depth: depth,
+    });
     await this.fileRepository.save(fileEntity);
 
     // TODO: 转换为 DTO
