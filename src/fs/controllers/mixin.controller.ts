@@ -56,15 +56,15 @@ export class MixinController {
    */
   @ApiOperation({
     summary: '新增',
-    description: '新增文件夹或文件',
+    description: '新增目录或文件',
   })
   @ApiBody({
-    description: '需要新建的文件夹或文件',
+    description: '指定新增的目录或文件',
     type: CreateItemDto,
     required: true,
   })
   @ApiOkResponse({
-    description: '返回新建的文件夹或文件',
+    description: '返回新增的目录或文件',
     type: ItemDto,
   })
   @Post()
@@ -73,9 +73,9 @@ export class MixinController {
   }
 
   /**
-   * 重命名文件
-   * @param id 文件的id
-   * @param name 文件的名称
+   * 重命名
+   * @param id 标识
+   * @param name 新的名称
    */
   @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/name')
@@ -86,19 +86,19 @@ export class MixinController {
 
   /**
    * 拷贝
-   * @param copyItemDTO 拷贝的元素
+   * @param copyItemDTO 指定拷贝的目录或文件
    */
   @Post('copy')
   @ApiOperation({
     summary: '拷贝',
-    description: '拷贝文件夹或文件',
+    description: '拷贝目录或文件',
   })
   @ApiBody({
-    description: '拷贝的元素',
+    description: '指定拷贝的目录或文件',
     type: CopyItemDTO,
   })
   @ApiOkResponse({
-    description: '拷贝元素成功',
+    description: '返回拷贝的目录或文件',
   })
   async copyItems(@Body() copyItemDTO: CopyItemDTO): Promise<ItemDto> {
     return await this.mixinService.copyItems(copyItemDTO);
@@ -106,19 +106,19 @@ export class MixinController {
 
   /**
    * 移动
-   * @param moveItemDTO 移动的元素
+   * @param moveItemDTO 指定移动的目录或文件
    */
   @Put('move')
   @ApiOperation({
     summary: '移动',
-    description: '移动文件夹或文件',
+    description: '移动目录或文件',
   })
   @ApiBody({
-    description: '移动的元素',
+    description: '指定移动的目录或文件',
     type: MoveItemDTO,
   })
   @ApiOkResponse({
-    description: '移动元素成功',
+    description: '返回移动的目录或文件',
   })
   async moveItems(@Body() moveItemDTO: MoveItemDTO): Promise<ItemDto> {
     return await this.mixinService.moveItems(moveItemDTO);
@@ -126,7 +126,7 @@ export class MixinController {
 
   /**
    * 置顶文件
-   * @param id 文件的id
+   * @param id 标识
    * @param top 置顶顺序
    */
   @ApiConsumes(FORM_DATA_MIME_TYPE)
@@ -141,30 +141,30 @@ export class MixinController {
 
   /**
    * 删除
-   * @param deleteItemDTO 删除的元素
+   * @param deleteItemDTO 指定删除的目录或文件
    */
   @Delete()
   @ApiOperation({
     summary: '删除',
-    description: '删除文件夹或文件',
+    description: '删除目录或文件',
   })
   @ApiBody({
-    description: '删除的元素',
+    description: '指定删除的目录或文件',
     type: DeleteItemDTO,
   })
   @ApiOkResponse({
-    description: '删除元素成功',
+    description: '删除操作已成功',
   })
   async deleteItems(@Body() deleteItemDTO: DeleteItemDTO): Promise<void> {
     await this.mixinService.deleteItems(deleteItemDTO);
   }
 
   /**
-   * 上传文件
+   * 上传
    */
   @Post('upload')
   @ApiBody({
-    description: '上传的文件',
+    description: '指定上传的文件夹或文件',
     schema: {
       type: 'object',
       properties: {
@@ -182,8 +182,8 @@ export class MixinController {
   }
 
   /**
-   * 下载文件
-   * @param id 文件的id
+   * 下载
+   * @param id 标识
    */
   @Get(':id/download')
   download(@Param('id') id: IdDTO) {
