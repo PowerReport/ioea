@@ -1,13 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IdDTO } from './id.dto';
 
 export class DeleteItemDTO {
-  @ApiProperty({
-    description: '拷贝的元素',
-    type: IdDTO,
-  })
-  items: IdDTO[];
-
   @ApiProperty({
     description: '删除的方法',
     type: Number,

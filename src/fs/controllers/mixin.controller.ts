@@ -22,7 +22,6 @@ import { CopyItemDTO } from '../dto/copy-item.dto';
 import { DeleteItemDTO } from '../dto/delete-item.dto';
 import { MoveItemDTO } from '../dto/move-item.dto';
 import { IMixinService, MIXIN_SERVICE } from '../services/mixin.interface';
-import { IdDTO } from '../dto/id.dto';
 import {
   FORM_DATA_MIME_TYPE,
   FormDataInterceptor,
@@ -30,6 +29,8 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateItemDto } from '../dto/create-item.dto';
 import { ItemDto } from '../dto/item.dto';
+import { ParseIdPipe } from '../../common/pips/parse-id.pipe';
+import { Id } from '../../common/id';
 
 /**
  * 混合类型服务
@@ -47,7 +48,7 @@ export class MixinController {
    * @param id
    */
   @Get()
-  browse(@Param('id') id: 'root' | number) {
+  browse(@Param('id', ParseIdPipe) id: Id) {
     throw new Error('not implemented.');
   }
 
@@ -80,7 +81,10 @@ export class MixinController {
   @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/name')
   @UseInterceptors(FormDataInterceptor)
-  rename(@Param('id') id: IdDTO, @Body('name') name: string): Promise<ItemDto> {
+  rename(
+    @Param('id', ParseIdPipe) id: Id,
+    @Body('name') name: string,
+  ): Promise<ItemDto> {
     throw new Error('not implemented.');
   }
 
@@ -133,7 +137,7 @@ export class MixinController {
   @Put(':id/top')
   @UseInterceptors(FormDataInterceptor)
   top(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIdPipe) id: Id,
     @Body('top') top: number,
   ): Promise<ItemDto> {
     throw new Error('not implemented.');
@@ -141,9 +145,10 @@ export class MixinController {
 
   /**
    * 删除
-   * @param deleteItemDTO 指定删除的目录或文件
+   * @param id 指定删除的目录或文件
+   * @param deleteItemDTO 删除选项
    */
-  @Delete()
+  @Delete(':id')
   @ApiOperation({
     summary: '删除',
     description: '删除目录或文件',
@@ -155,7 +160,10 @@ export class MixinController {
   @ApiOkResponse({
     description: '删除操作已成功',
   })
-  async deleteItems(@Body() deleteItemDTO: DeleteItemDTO): Promise<void> {
+  async deleteItems(
+    @Param('id', ParseIdPipe) id: Id,
+    @Body() deleteItemDTO: DeleteItemDTO,
+  ): Promise<void> {
     await this.mixinService.deleteItems(deleteItemDTO);
   }
 
@@ -186,7 +194,7 @@ export class MixinController {
    * @param id 标识
    */
   @Get(':id/download')
-  download(@Param('id') id: IdDTO) {
+  download(@Param('id', ParseIdPipe) id: Id) {
     throw new Error('not implemented.');
   }
 }

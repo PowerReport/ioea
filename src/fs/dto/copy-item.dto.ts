@@ -1,18 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IdDTO } from './id.dto';
 
 export class CopyItemDTO {
   @ApiProperty({
     description: '拷贝的元素',
-    type: IdDTO,
+    type: Number,
   })
-  items: IdDTO[];
+  items: number[];
 
   @ApiProperty({
-    description: '目标文件夹的 ID。root 表示根文件夹。',
+    description: '目标目录',
     type: String,
   })
-  targetId: string | 'root';
+  targetId: 'root' | number;
 
   @ApiProperty({
     description: '拷贝冲突时采取的方法。默认为警告。',
