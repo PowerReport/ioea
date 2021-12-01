@@ -5,23 +5,26 @@ export const OBS_SERVICE = 'OBS_SERVICE';
  */
 export interface IObsService {
   /**
-   * 复制文件，将文件从源路径复制到目标路径
-   *
-   * 1. 源路径以 local: 开头，并且目标路径以 cloud: 开头，则将本地文件上传至云端
-   * 2. 源路径以 cloud: 开头，并且目标路径以 local: 开头，则将云端文件下载至本地
-   * 3. 源路径以 cloud: 开头，并且目标路径以 cloud: 开头，则将云端文件拷贝至云端（针对不同用户之间的操作）
-   * 4. 源路径以 local: 开头，并且目标路径以 local: 开头，则将本地文件拷贝至本地（针对不同用户之间的操作）
-   * @param source 源路径
-   * @param target 目标路径
+   * 获取指定的云端文件
+   * @param key 远端文件的 key
    */
-  copy(source: string, target: string): Promise<void>;
+  get(key: string): Promise<Buffer>;
 
   /**
-   * 移除文件
-   *
-   * 1. 源路径以 cloud: 开头，移除云端文件
-   * 2. 源路径以 local: 开头，移除本地文件
-   * @param source 源路径
+   * 上传指定文件到云端
+   * @param key 云端文件的 key
+   * @param buf 文件的二进制数据
+   * @param contentType 媒体类型，默认值为 application/octet-stream
    */
-  remove(source: string): Promise<void>;
+  put(
+    key: string,
+    buf: Buffer,
+    contentType?: string | undefined,
+  ): Promise<void>;
+
+  /**
+   * 移除指定的云端文件
+   * @param key 云端文件的 key
+   */
+  remove(key: string): Promise<void>;
 }

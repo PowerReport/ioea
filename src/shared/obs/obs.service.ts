@@ -1,70 +1,57 @@
 import { IObsService } from './obs.interface';
 import { Injectable, Logger } from '@nestjs/common';
-import { Client } from 'minio';
-import { ObsPath, ObsPathType } from './obs-path';
+import { S3 } from 'aws-sdk';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ObsService implements IObsService {
   private readonly logger = new Logger(ObsService.name);
 
-  private readonly client: Client;
+  private readonly client: S3;
   private readonly bucketName: string;
 
   constructor(private readonly configService: ConfigService) {
-    try {
-      this.client = new Client({
-        endPoint: configService.get('MINIO_END_POINT'),
-        port: configService.get('MINIO_PORT'),
-        useSSL: configService.get('MINIO_USE_SSL') === 'true',
-        accessKey: configService.get('MINIO_ROOT_USER'),
-        secretKey: configService.get('MINIO_ROOT_PASSWORD'),
-      });
-    } catch (err) {
-      this.logger.error('连接 Minio 失败', err.stack);
-    }
-    this.bucketName = 'ioea';
+    this.client = new S3({
+      endpoint: configService.get('CLOUD_ENDPOINT'),
+      accessKeyId: configService.get('CLOUD_ACCESS_KEY'),
+      secretAccessKey: configService.get('CLOUD_SECRET_ACCESS_KEY'),
+      s3ForcePathStyle: true,
+    });
+    this.bucketName = configService.get('CLOUD_BUCKET');
   }
 
-  async copy(source: string, target: string): Promise<void> {
-    const path1 = new ObsPath(source);
-    const path2 = new ObsPath(target);
-
-    // 上传文件至云端
-    if (path1.type === ObsPathType.Local && path2.type === ObsPathType.Cloud) {
-      await this.client.fPutObject(
-        this.bucketName,
-        path2.realPath,
-        path1.realPath,
-        {
-          'Content-Type': 'application/zip',
-        },
-      );
-      return;
-    }
-
-    // 下载文件至本地
-    if (path1.type === ObsPathType.Cloud && path2.type === ObsPathType.Local) {
-      await this.client.fGetObject(
-        this.bucketName,
-        path1.realPath,
-        path2.realPath,
-      );
-      return;
-    }
-
-    throw new Error('not implemented.');
+  async get(key: string): Promise<Buffer> {
+    // TODO: 需要处理请求的资源不存在的情况
+    const result = await this.client
+      .getObject({
+        Bucket: this.bucketName,
+        Key: key,
+      })
+      .promise();
+    return result.Body as Buffer;
   }
 
-  async remove(source: string): Promise<void> {
-    const path = new ObsPath(source);
+  async put(
+    key: string,
+    buf: Buffer,
+    contentType?: string | undefined,
+  ): Promise<void> {
+    await this.client
+      .putObject({
+        Bucket: this.bucketName,
+        Key: key,
+        Body: buf,
+        ContentType: contentType ?? 'application/octet-stream',
+      })
+      .promise();
+  }
 
-    // 删除云端的文件
-    if (path.type === ObsPathType.Cloud) {
-      await this.client.removeObject(this.bucketName, path.realPath);
-      return;
-    }
-
-    throw new Error('not supported.');
+  async remove(key: string): Promise<void> {
+    await this.client
+      .deleteObject({
+        Bucket: this.bucketName,
+        Key: key,
+      })
+      .promise();
   }
 }
