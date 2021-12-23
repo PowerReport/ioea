@@ -30,7 +30,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateItemDto } from '../dto/create-item.dto';
 import { ItemDto } from '../dto/item.dto';
 import { ParseIdPipe } from '../../common/pips/parse-id.pipe';
-import { Id } from '../../common/id';
+import { Id } from '../../common/models/id';
 
 /**
  * 混合类型服务

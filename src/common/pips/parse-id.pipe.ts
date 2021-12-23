@@ -1,6 +1,6 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 import { Oops } from '../friendly-except/oops';
-import { parseId } from '../id';
+import { parseId } from '../models/id';
 
 @Injectable()
 export class ParseIdPipe implements PipeTransform {
