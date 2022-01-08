@@ -1,17 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class MoveItemDTO {
+/**
+ * 移动 DTO
+ */
+export class MoveItemDto {
   @ApiProperty({
-    description: '移动的元素',
-    type: Number,
+    description: '移动的目录或文件',
+    type: String,
+    isArray: true,
   })
-  items: number[];
+  items: string[];
 
   @ApiProperty({
     description: '目标目录',
     type: String,
   })
-  targetId: 'root' | number;
+  targetId: string;
 
   @ApiProperty({
     description: '移动冲突时采取的方法。默认为警告。',
@@ -23,6 +27,9 @@ export class MoveItemDTO {
   moveType: MoveType = MoveType.Warn;
 }
 
+/**
+ * 移动模式
+ */
 export enum MoveType {
   /**
    * 警告
@@ -30,12 +37,14 @@ export enum MoveType {
   Warn = 0,
 
   /**
-   * 替换。合并文件夹，并替换相同名称的文件。
+   * 替换
+   * @description 合并文件夹，并替换相同名称的文件。
    */
   Override = 1,
 
   /**
-   * 跳过。合并文件夹，并跳过相同名称的文件。
+   * 跳过
+   * @description 合并文件夹，并跳过相同名称的文件。
    */
   Skip = 2,
 }

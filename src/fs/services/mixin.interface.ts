@@ -1,29 +1,70 @@
-import { CopyItemDTO } from '../dto/copy-item.dto';
-import { DeleteItemDTO } from '../dto/delete-item.dto';
-import { MoveItemDTO } from '../dto/move-item.dto';
+import { CopyItemDto } from '../dto/copy-item.dto';
+import { DeleteItemDto } from '../dto/delete-item.dto';
+import { MoveItemDto } from '../dto/move-item.dto';
 import { ItemDto } from '../dto/item.dto';
+import { CreateItemDto } from '../dto/create-item.dto';
+import { RenameItemDto } from '../dto/rename-item.dto';
+import { ItemTreeDto } from '../dto/item-tree.dto';
 
 export const MIXIN_SERVICE = 'MixinService';
 
 /**
- * 混合类型服务，提供文件夹和文件的拷贝、移动与删除操作
+ * 目录文件服务
  */
 export interface IMixinService {
   /**
-   * 拷贝
-   * @param copyItemDTO 拷贝的元素
+   * 浏览
+   * @param id
    */
-  copyItems(copyItemDTO: CopyItemDTO): Promise<ItemDto>;
+  browse(id: string): Promise<ItemDto[]>;
+
+  /**
+   * 新建
+   * @param createItemDto
+   * @returns
+   */
+  create(createItemDto: CreateItemDto): Promise<ItemDto>;
+
+  /**
+   * 重命名
+   * @param renameItemDto
+   */
+  rename(renameItemDto: RenameItemDto): Promise<ItemDto>;
+
+  /**
+   * 拷贝
+   * @param copyItemDto
+   */
+  copy(copyItemDto: CopyItemDto): Promise<ItemDto>;
 
   /**
    * 移动
-   * @param moveItemDTO 移动的元素
+   * @param moveItemDto
    */
-  moveItems(moveItemDTO: MoveItemDTO): Promise<ItemDto>;
+  move(moveItemDto: MoveItemDto): Promise<ItemDto>;
+
+  /**
+   * 置顶
+   * @param id
+   */
+  top(id: string): Promise<ItemDto>;
 
   /**
    * 删除
-   * @param deleteItemDTO 删除的元素
+   * @param deleteItemDto
    */
-  deleteItems(deleteItemDTO: DeleteItemDTO): Promise<void>;
+  delete(deleteItemDto: DeleteItemDto): Promise<void>;
+
+  /**
+   * 上传
+   * @param filename
+   * @param content
+   */
+  upload(filename: string, content: Buffer): Promise<ItemTreeDto>;
+
+  /**
+   * 下载
+   * @param id
+   */
+  download(id: string): Promise<string>;
 }

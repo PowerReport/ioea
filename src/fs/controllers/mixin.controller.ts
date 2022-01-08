@@ -5,9 +5,9 @@ import {
   Get,
   Inject,
   Param,
-  ParseIntPipe,
   Post,
   Put,
+  Res,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -16,26 +16,24 @@ import {
   ApiConsumes,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { CopyItemDTO } from '../dto/copy-item.dto';
-import { DeleteItemDTO } from '../dto/delete-item.dto';
-import { MoveItemDTO } from '../dto/move-item.dto';
+import { CopyItemDto } from '../dto/copy-item.dto';
+import { DeleteItemDto } from '../dto/delete-item.dto';
+import { MoveItemDto } from '../dto/move-item.dto';
 import { IMixinService, MIXIN_SERVICE } from '../services/mixin.interface';
 import {
   FORM_DATA_MIME_TYPE,
-  FormDataInterceptor,
 } from '../../common/interceptors/form-data.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateItemDto } from '../dto/create-item.dto';
 import { ItemDto } from '../dto/item.dto';
-import { ParseIdPipe } from '../../common/pips/parse-id.pipe';
-import { Id } from '../../common/models/id';
+import { RenameItemDto } from '../dto/rename-item.dto';
+import { ItemTreeDto } from '../dto/item-tree.dto';
+import { Response } from 'express';
 
-/**
- * 混合类型服务
- */
-@ApiTags('混合类型服务')
+@ApiTags('目录文件服务')
 @Controller('api/1/mixin')
 export class MixinController {
   constructor(
@@ -43,18 +41,25 @@ export class MixinController {
     private readonly mixinService: IMixinService,
   ) {}
 
-  /**
-   * 浏览
-   * @param id
-   */
   @Get()
-  browse(@Param('id', ParseIdPipe) id: Id) {
-    throw new Error('not implemented.');
+  @ApiOperation({
+    summary: '浏览',
+    description: '浏览指定目录下的目录或文件',
+  })
+  @ApiParam({
+    name: 'id',
+    description: '目录的 `id`，`root` 表示根目录',
+  })
+  @ApiOkResponse({
+    description: '返回指定目录下的目录或文件',
+    type: ItemDto,
+    isArray: true,
+  })
+  async browse(@Param('id') id: string): Promise<ItemDto[]> {
+    return await this.mixinService.browse(id);
   }
 
-  /**
-   * 新增
-   */
+  @Post()
   @ApiOperation({
     summary: '新增',
     description: '新增目录或文件',
@@ -62,36 +67,32 @@ export class MixinController {
   @ApiBody({
     description: '指定新增的目录或文件',
     type: CreateItemDto,
-    required: true,
   })
   @ApiOkResponse({
     description: '返回新增的目录或文件',
     type: ItemDto,
   })
-  @Post()
-  post(@Body() createItemDto: CreateItemDto): Promise<ItemDto> {
-    throw new Error('not implemented.');
+  async post(@Body() createItemDto: CreateItemDto): Promise<ItemDto> {
+    return await this.mixinService.create(createItemDto);
   }
 
-  /**
-   * 重命名
-   * @param id 标识
-   * @param name 新的名称
-   */
-  @ApiConsumes(FORM_DATA_MIME_TYPE)
-  @Put(':id/name')
-  @UseInterceptors(FormDataInterceptor)
-  rename(
-    @Param('id', ParseIdPipe) id: Id,
-    @Body('name') name: string,
-  ): Promise<ItemDto> {
-    throw new Error('not implemented.');
+  @Put('name')
+  @ApiOperation({
+    summary: '重命名',
+    description: '重命名目录或文件',
+  })
+  @ApiBody({
+    description: '指定重命名的目录或文件',
+    type: RenameItemDto,
+  })
+  @ApiOkResponse({
+    description: '返回重命名的目录或文件',
+    type: ItemDto,
+  })
+  async rename(@Body() renameItemDto : RenameItemDto): Promise<ItemDto> {
+    return await this.mixinService.rename(renameItemDto);
   }
 
-  /**
-   * 拷贝
-   * @param copyItemDTO 指定拷贝的目录或文件
-   */
   @Post('copy')
   @ApiOperation({
     summary: '拷贝',
@@ -99,19 +100,16 @@ export class MixinController {
   })
   @ApiBody({
     description: '指定拷贝的目录或文件',
-    type: CopyItemDTO,
+    type: CopyItemDto,
   })
   @ApiOkResponse({
     description: '返回拷贝的目录或文件',
+    type: ItemDto,
   })
-  async copyItems(@Body() copyItemDTO: CopyItemDTO): Promise<ItemDto> {
-    return await this.mixinService.copyItems(copyItemDTO);
+  async copy(@Body() copyItemDTO: CopyItemDto): Promise<ItemDto> {
+    return await this.mixinService.copy(copyItemDTO);
   }
 
-  /**
-   * 移动
-   * @param moveItemDTO 指定移动的目录或文件
-   */
   @Put('move')
   @ApiOperation({
     summary: '移动',
@@ -119,58 +117,56 @@ export class MixinController {
   })
   @ApiBody({
     description: '指定移动的目录或文件',
-    type: MoveItemDTO,
+    type: MoveItemDto,
   })
   @ApiOkResponse({
     description: '返回移动的目录或文件',
+    type: ItemDto,
   })
-  async moveItems(@Body() moveItemDTO: MoveItemDTO): Promise<ItemDto> {
-    return await this.mixinService.moveItems(moveItemDTO);
+  async move(@Body() moveItemDTO: MoveItemDto): Promise<ItemDto> {
+    return await this.mixinService.move(moveItemDTO);
   }
 
-  /**
-   * 置顶文件
-   * @param id 标识
-   * @param top 置顶顺序
-   */
-  @ApiConsumes(FORM_DATA_MIME_TYPE)
   @Put(':id/top')
-  @UseInterceptors(FormDataInterceptor)
-  top(
-    @Param('id', ParseIdPipe) id: Id,
-    @Body('top') top: number,
-  ): Promise<ItemDto> {
-    throw new Error('not implemented.');
+  @ApiOperation({
+    summary: '置顶',
+    description: '置顶目录或文件',
+  })
+  @ApiParam({
+    name: 'id',
+    description: '目录或文件的 `id`',
+    type: String,
+  })
+  @ApiOkResponse({
+    description: '返回置顶的目录或文件',
+    type: ItemDto,
+  })
+  async top(@Param('id') id: string): Promise<ItemDto> {
+    return await  this.mixinService.top(id);
   }
 
-  /**
-   * 删除
-   * @param id 指定删除的目录或文件
-   * @param deleteItemDTO 删除选项
-   */
-  @Delete(':id')
+  @Delete()
   @ApiOperation({
     summary: '删除',
     description: '删除目录或文件',
   })
   @ApiBody({
     description: '指定删除的目录或文件',
-    type: DeleteItemDTO,
+    type: DeleteItemDto,
   })
   @ApiOkResponse({
     description: '删除操作已成功',
   })
-  async deleteItems(
-    @Param('id', ParseIdPipe) id: Id,
-    @Body() deleteItemDTO: DeleteItemDTO,
-  ): Promise<void> {
-    await this.mixinService.deleteItems(deleteItemDTO);
+  async delete(@Body() deleteItemDto: DeleteItemDto): Promise<void> {
+    await this.mixinService.delete(deleteItemDto);
   }
 
-  /**
-   * 上传
-   */
   @Post('upload')
+  @ApiOperation({
+    summary: '上传',
+    description: '上传目录或文件',
+  })
+  @ApiConsumes(FORM_DATA_MIME_TYPE)
   @ApiBody({
     description: '指定上传的文件夹或文件',
     schema: {
@@ -183,18 +179,31 @@ export class MixinController {
       },
     },
   })
-  @ApiConsumes(FORM_DATA_MIME_TYPE)
+  @ApiOkResponse({
+    description: '返回上传成功的目录或文件树',
+    type: ItemTreeDto,
+  })
   @UseInterceptors(FileInterceptor('file'))
-  upload(@UploadedFile() file: Express.Multer.File) {
-    throw new Error('not implemented.');
+  async upload(@UploadedFile() file: Express.Multer.File): Promise<ItemTreeDto> {
+    return await this.mixinService.upload(file.originalname, file.buffer);
   }
 
-  /**
-   * 下载
-   * @param id 标识
-   */
   @Get(':id/download')
-  download(@Param('id', ParseIdPipe) id: Id) {
-    throw new Error('not implemented.');
+  @ApiOperation({
+    summary: '下载',
+    description: '下载目录或文件',
+  })
+  @ApiParam({
+    name: 'id',
+    description: '目录或文件的 `id`',
+    type: String,
+  })
+  @ApiOkResponse({
+    description: '返回二进制数据',
+    type: Buffer,
+  })
+  async download(@Res() res: Response, @Param('id') id: string): Promise<void> {
+    const file = await this.mixinService.download(id);
+    res.sendFile(file);
   }
 }

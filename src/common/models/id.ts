@@ -1,47 +1,49 @@
-type Type = 'file' | 'dir';
+import { Oops } from "../friendly-except/oops";
+
+const root = 'root';
 
 export class Id {
-  public static readonly root = 'root';
+  private id?: number | undefined;
+  private type: 'file' | 'dir';
 
-  constructor(public id: number, public type: Type) {}
+  constructor(str: string ) {
+    this.parse(str);
+  }
+
+  public get realId(): number | undefined {
+    return this.id;
+  }
 
   public get isDir(): boolean {
     return this.type === 'dir';
   }
 
   public get isRoot(): boolean {
-    return this.id === 0 && this.isDir;
-  }
-}
-
-export function parseId(str: string): Id | undefined {
-  // 根目录
-  if (str === Id.root) {
-    return new Id(0, 'dir');
+    return this.id === 0;
   }
 
-  // 目录
-  const num = parseInt(str);
-  if (num) {
-    return new Id(num, 'dir');
+  private parse(str: string): void {
+    // 根目录
+    if (str === root) {
+      this.id = 0;
+    }
+  
+    const idPattern = /^(?<type>file|dir)!(?<id>\d+)$/;
+  
+    if (idPattern.test(str)) {
+      const arr = idPattern.exec(str);
+      if (!arr?.groups) {
+        return undefined;
+      }
+
+      const id = parseInt(arr.groups['id']);
+      if (!id || id <= 0) {
+        return undefined;
+      }
+    
+      this.type = arr.groups['type'] as 'file' | 'dir';
+    }
+
+    throw Oops.bah('');
   }
-
-  // 目录或文件
-  const idPattern = /^(?<type>file|dir)!(?<id>\d+)$/;
-
-  const result = idPattern.test(str);
-  if (!result) {
-    return undefined;
-  }
-
-  const arr = idPattern.exec(str);
-
-  const id = parseInt(arr.groups['id']);
-  if (id <= 0) {
-    return undefined;
-  }
-
-  const type = arr.groups['type'] as Type;
-
-  return new Id(id, type);
 }

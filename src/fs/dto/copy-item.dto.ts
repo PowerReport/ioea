@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CopyItemDTO {
+export class CopyItemDto {
   @ApiProperty({
     description: '拷贝的元素',
     type: Number,

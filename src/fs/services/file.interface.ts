@@ -1,12 +1,27 @@
-import { CreateItemDto } from '../dto/create-item.dto';
-import { FileEntity } from '../entities/file.entity';
+import { Manifest } from "../manifest";
 
 export const FILE_SERVICE = 'FILE_SERVICE';
 
+/**
+ * 文件服务
+ */
 export interface IFileService {
   /**
-   * 新增文件
-   * @param createFileDTO 需要新建的文件
+   * 获取文件 Manifest
+   * @param id
    */
-  post(createFileDTO: CreateItemDto): Promise<FileEntity>;
+  getManifest(id: number): Promise<Manifest>;
+
+  /**
+   * 文件预览
+   * @param id 
+   * @param version 
+   */
+  preview(id: number, version?: number | undefined): Promise<string>;
+
+  /**
+   * 文件导出
+   * @param id 
+   */
+  export(id: number): Promise<string>;
 }

@@ -1,0 +1,1 @@
+export const paramNotFound = 'Unable to read the {0} of the object storage, you can configure the environment variable {1} and try again.';

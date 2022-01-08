@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * 目录或文件 DTO
+ */
 export class ItemDto {
   @ApiProperty({
     name: 'id',
-    description: '标识',
+    description: '目录或文件的 `id`',
     type: Number,
   })
   id: number;

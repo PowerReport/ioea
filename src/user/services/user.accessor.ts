@@ -1,7 +1,7 @@
-import { UserDTO } from '../dto/user.dto';
+import { UserDto } from '../dto/user.dto';
 
 export const USER_ACCESSOR = 'USER_ACCESSOR';
 
 export interface IUserAccessor {
-  current: UserDTO;
+  current: UserDto;
 }

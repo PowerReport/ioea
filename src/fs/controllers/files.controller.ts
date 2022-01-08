@@ -5,14 +5,14 @@ import {
   Param,
   ParseIntPipe,
   Query,
+  Res,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
+import { Manifest } from '../manifest';
 import { FILE_SERVICE, IFileService } from '../services/file.interface';
 
-/**
- * 文件服务
- */
-@ApiTags('文件服务')
+@ApiTags('目录文件服务')
 @Controller('api/1/files')
 export class FilesController {
   constructor(
@@ -20,26 +20,49 @@ export class FilesController {
     private readonly fileService: IFileService,
   ) {}
 
-  /**
-   * 获取文件的信息
-   * @param id 文件的id
-   */
   @Get(':id/manifest')
-  getManifest(@Param('id', ParseIntPipe) id: number) {
-    throw new Error('not implemented.');
+  @ApiOperation({
+    summary: '获取文件 Manifest',
+    description: '获取文件 Manifest',
+  })
+  @ApiParam({
+    name: 'id',
+    description: '文件的 `id`',
+    type: Number,
+  })
+  @ApiOkResponse({
+    description: '返回文件 Manifest',
+    type: Manifest,
+  })
+  async getManifest(@Param('id', ParseIntPipe) id: number): Promise<Manifest> {
+    return await this.fileService.getManifest(id);
   }
 
-  /**
-   * 预览文件
-   * @param id 文件的id
-   * @param version 文件的版本
-   */
   @Get(':id/preview')
-  preview(
+  @ApiOperation({
+    summary: '预览文件',
+    description: '预览文件',
+  })
+  @ApiParam({
+    name: 'id',
+    description: '文件的 `id`',
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'version',
+    description: '文件的版本',
+    type: Number,
+    required: false,
+  })
+  @ApiOkResponse({
+    description: '返回文件的内容',
+    type: String,
+  })
+  async preview(
     @Param('id', ParseIntPipe) id: number,
-    @Query('version') version?: number | undefined,
-  ) {
-    throw new Error('not implemented.');
+    @Query('version') version?: number | undefined, // TODO: 可选参数的 ParseInt pipe
+  ): Promise<string> {
+    return await this.fileService.preview(id, version);
   }
 
   /**
@@ -47,8 +70,22 @@ export class FilesController {
    * @param id 文件的id
    * @param type 文件类型
    */
-  @Get(':id/:type')
-  export(@Param('id', ParseIntPipe) id: number, @Param('type') type: string) {
-    throw new Error('not implemented.');
+  @Get(':id')
+  @ApiOperation({
+    summary: '导出',
+    description: '导出',
+  })
+  @ApiParam({
+    name: 'id',
+    description: '文件的 `id`',
+    type: Number,
+  })
+  @ApiOkResponse({
+    description: '返回二进制数据',
+    type: Buffer,
+  })
+  async export(@Res() res: Response, @Param('id', ParseIntPipe) id: number): Promise<void> {
+    const file = await this.fileService.export(id);
+    res.sendFile(file);
   }
 }
