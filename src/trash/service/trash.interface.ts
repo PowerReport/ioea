@@ -1,4 +1,4 @@
-import { GetTrashCaseResponse } from "../usecase/get-trash.case";
+import { GetTrashCaseResponse } from "../usecases/get-trash.case";
 
 export const TRASH_SERVICE = 'TRASH_SERVICE';
 

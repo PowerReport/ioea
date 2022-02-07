@@ -21,18 +21,18 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { DuplicateCaseRequest } from '../usecase/duplicate.case';
-import { DeleteCaseRequest } from '../usecase/delete.case';
-import { MoveCaseRequest } from '../usecase/move.case';
-import { IMixinService, MIXIN_SERVICE } from '../services/mixin.interface';
+import { DuplicateCaseRequest } from '../usecases/duplicate.case';
+import { DeleteCaseRequest } from '../usecases/delete.case';
+import { MoveCaseRequest } from '../usecases/move.case';
+import { IMixinService, MIXIN_SERVICE } from '../service/mixin.interface';
 import {
   FORM_DATA_MIME_TYPE,
 } from '../../common/interceptors/form-data.interceptor';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateCaseRequest } from '../usecase/create.case';
-import { GetCaseResponse } from '../usecase/get.case';
-import { RenameCaseRequest, RenameCaseResponse } from '../usecase/rename.case';
-import { TreeviewCaseResponse } from '../usecase/treeview.case';
+import { CreateCaseRequest } from '../usecases/create.case';
+import { GetCaseResponse } from '../usecases/get.case';
+import { RenameCaseRequest, RenameCaseResponse } from '../usecases/rename.case';
+import { TreeviewCaseResponse } from '../usecases/treeview.case';
 import { Response } from 'express';
 
 @ApiTags('目录文件服务')

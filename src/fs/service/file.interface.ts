@@ -1,4 +1,4 @@
-import { Manifest } from "../manifest";
+import { Manifest } from "../../domain/manifest/model/manifest";
 
 export const FILE_SERVICE = 'FILE_SERVICE';
 

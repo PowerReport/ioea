@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { FilesController } from './controllers/files.controller';
-import { FILE_SERVICE } from './services/file.interface';
-import { FileService } from './services/file.service';
-import { MIXIN_SERVICE } from './services/mixin.interface';
-import { MixinService } from './services/mixin.service';
+import { FILE_SERVICE } from './service/file.interface';
+import { FileService } from './service/file.service';
+import { MIXIN_SERVICE } from './service/mixin.interface';
+import { MixinService } from './service/mixin.service';
 import { MixinController } from './controllers/mixin.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FileEntity } from '../domain/fs/model/file.entity';
-import { DirEntity } from '../domain/fs/model/dir.entity';
+import { FileEntity } from '../domain/file/model/file.entity';
+import { DirEntity } from '../domain/dir/model/dir.entity';
 import { UserModule } from '../domain/user/user.module';
 import { SharedModule } from '../shared/shared.module';
 

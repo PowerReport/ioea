@@ -2,23 +2,18 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
-  Tree,
-  TreeChildren,
-  TreeLevelColumn,
-  TreeParent,
   UpdateDateColumn,
 } from 'typeorm';
 import { DataState } from '../../trash/model/data-state';
-import { FileEntity } from './file.entity';
+import { DirEntity } from '../../dir/model/dir.entity';
 
 /**
- * 目录实体
+ * 文件实体
  */
-@Entity('dir')
-@Tree('materialized-path')
-export class DirEntity {
+@Entity('file')
+export class FileEntity {
   /**
    * 标识
    */
@@ -30,6 +25,12 @@ export class DirEntity {
    */
   @Column()
   name: string;
+
+  /**
+   * 存储路径
+   */
+  @Column()
+  location: string;
 
   /**
    * 状态
@@ -70,24 +71,12 @@ export class DirEntity {
   /**
    * 所属目录
    */
-  @TreeParent()
+  @ManyToOne(() => DirEntity, (f) => f.files)
   baseDir?: DirEntity | null | undefined;
-
-  /**
-   * 子目录
-   */
-  @TreeChildren()
-  subDirs?: DirEntity[] | null | undefined;
-
-  /**
-   * 子文件
-   */
-  @OneToMany(() => FileEntity, (f) => f.baseDir)
-  files?: FileEntity[] | null | undefined;
 
   /**
    * 深度
    */
-  @TreeLevelColumn()
+  @Column()
   depth: number;
 }

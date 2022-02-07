@@ -1,7 +1,7 @@
 import { Controller, Get, Inject } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { GetTrashCaseResponse } from "../usecase/get-trash.case";
-import { ITrashService, TRASH_SERVICE } from "../services/trash.interface";
+import { GetTrashCaseResponse } from "../usecases/get-trash.case";
+import { ITrashService, TRASH_SERVICE } from "../service/trash.interface";
 
 @ApiTags('回收站服务')
 @Controller('api/1/trash')

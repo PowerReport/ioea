@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GetTrashCaseResponse } from '../usecase/get-trash.case';
+import { GetTrashCaseResponse } from '../usecases/get-trash.case';
 import { ITrashService } from './trash.interface';
 
 @Injectable()

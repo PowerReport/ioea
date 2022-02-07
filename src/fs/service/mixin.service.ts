@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { DuplicateCaseRequest } from '../usecase/duplicate.case';
-import { DeleteCaseRequest } from '../usecase/delete.case';
-import { MoveCaseRequest } from '../usecase/move.case';
+import { DuplicateCaseRequest } from '../usecases/duplicate.case';
+import { DeleteCaseRequest } from '../usecases/delete.case';
+import { MoveCaseRequest } from '../usecases/move.case';
 import { IMixinService } from './mixin.interface';
-import { GetCaseResponse } from '../usecase/get.case';
-import { CreateCaseRequest } from '../usecase/create.case';
-import { TreeviewCaseResponse } from '../usecase/treeview.case';
-import { RenameCaseRequest, RenameCaseResponse } from '../usecase/rename.case';
+import { GetCaseResponse } from '../usecases/get.case';
+import { CreateCaseRequest } from '../usecases/create.case';
+import { TreeviewCaseResponse } from '../usecases/treeview.case';
+import { RenameCaseRequest, RenameCaseResponse } from '../usecases/rename.case';
 
 @Injectable()
 export class MixinService implements IMixinService {

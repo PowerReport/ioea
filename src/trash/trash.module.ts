@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { TRASH_SERVICE } from './services/trash.interface';
-import { TrashService } from './services/trash.service';
+import { TRASH_SERVICE } from './service/trash.interface';
+import { TrashService } from './service/trash.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TrashEntity } from '../domain/trash/model/trash.entity';
 

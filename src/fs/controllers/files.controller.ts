@@ -8,8 +8,8 @@ import {
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { Manifest } from '../manifest';
-import { FILE_SERVICE, IFileService } from '../services/file.interface';
+import { Manifest } from '../../domain/manifest/model/manifest';
+import { FILE_SERVICE, IFileService } from '../service/file.interface';
 
 @ApiTags('目录文件服务')
 @Controller('api/1/files')

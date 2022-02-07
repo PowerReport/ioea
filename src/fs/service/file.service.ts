@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Manifest } from '../manifest';
+import { Manifest } from '../../domain/manifest/model/manifest';
 import { IFileService } from './file.interface';
 
 @Injectable()

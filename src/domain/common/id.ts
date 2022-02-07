@@ -1,4 +1,4 @@
-import { Oops } from "../../../common/friendly-except/oops";
+import { Oops } from "../../common/friendly-except/oops";
 
 const root = 'root';
 const idPattern = /^(?<type>file|dir)!(?<id>\d+)$/;
