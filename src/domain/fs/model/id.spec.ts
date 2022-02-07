@@ -3,7 +3,6 @@ import each from 'jest-each';
 
 each([
   ['root', 0, true, true],
-  ['99', 99, true, false],
   ['dir!100', 100, true, false],
   ['file!19', 19, false, false],
 ]).test(
@@ -31,8 +30,9 @@ each([
   'file@12',
   'dir',
   '!19',
+  '25',
 ]).test('测试错误的 id - %s', (input: string) => {
-  const id = new Id(input);
+  const convertId = () => { new Id(input) };
 
-  expect(id).toBe(undefined);
+  expect(convertId).toThrow(`无法识别的 id: ${input}, 请检查格式是否正确!例如: dir!100, file!101`);
 });

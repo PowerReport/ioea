@@ -1,21 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-/**
- * 移动 DTO
- */
-export class MoveItemDto {
+export class MoveCaseRequest {
   @ApiProperty({
-    description: '移动的目录或文件',
+    description: '移动的目录或文件的 `id`',
     type: String,
     isArray: true,
   })
   items: string[];
 
   @ApiProperty({
-    description: '目标目录',
+    description: '目录的 `id`',
     type: String,
   })
-  targetId: string;
+  dirId: string;
 
   @ApiProperty({
     description: '移动冲突时采取的方法。默认为警告。',

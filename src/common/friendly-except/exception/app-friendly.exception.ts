@@ -28,7 +28,7 @@ export class AppFriendlyException extends Error {
    * 配置状态码
    * @param statusCode 状态码
    */
-  public setStatusCode(statusCode: number) {
+  public setStatusCode(statusCode: number): AppFriendlyException {
     this.statusCode = statusCode;
     return this;
   }

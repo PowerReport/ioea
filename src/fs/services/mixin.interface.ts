@@ -1,10 +1,10 @@
-import { CopyItemDto } from '../dto/copy-item.dto';
-import { DeleteItemDto } from '../dto/delete-item.dto';
-import { MoveItemDto } from '../dto/move-item.dto';
-import { ItemDto } from '../dto/item.dto';
-import { CreateItemDto } from '../dto/create-item.dto';
-import { RenameItemDto } from '../dto/rename-item.dto';
-import { ItemTreeDto } from '../dto/item-tree.dto';
+import { DuplicateCaseRequest } from '../usecase/duplicate.case';
+import { DeleteCaseRequest } from '../usecase/delete.case';
+import { MoveCaseRequest } from '../usecase/move.case';
+import { GetCaseResponse } from '../usecase/get.case';
+import { CreateCaseRequest } from '../usecase/create.case';
+import { RenameCaseRequest, RenameCaseResponse } from '../usecase/rename.case';
+import { TreeviewCaseResponse } from '../usecase/treeview.case';
 
 export const MIXIN_SERVICE = 'MixinService';
 
@@ -16,51 +16,57 @@ export interface IMixinService {
    * 浏览
    * @param id
    */
-  browse(id: string): Promise<ItemDto[]>;
+  browse(id: string): Promise<GetCaseResponse[]>;
+
+  /**
+   * 树视图
+   * @param id
+   */
+  treeview(id: string): Promise<TreeviewCaseResponse>;
 
   /**
    * 新建
-   * @param createItemDto
+   * @param request
    * @returns
    */
-  create(createItemDto: CreateItemDto): Promise<ItemDto>;
+  create(request: CreateCaseRequest): Promise<GetCaseResponse>;
 
   /**
    * 重命名
-   * @param renameItemDto
+   * @param request
    */
-  rename(renameItemDto: RenameItemDto): Promise<ItemDto>;
+  rename(request: RenameCaseRequest): Promise<RenameCaseResponse>;
 
   /**
    * 拷贝
-   * @param copyItemDto
+   * @param request
    */
-  copy(copyItemDto: CopyItemDto): Promise<ItemDto>;
+  duplicate(request: DuplicateCaseRequest): Promise<void>;
 
   /**
    * 移动
-   * @param moveItemDto
+   * @param request
    */
-  move(moveItemDto: MoveItemDto): Promise<ItemDto>;
+  move(request: MoveCaseRequest): Promise<GetCaseResponse>;
 
   /**
    * 置顶
    * @param id
    */
-  top(id: string): Promise<ItemDto>;
+  top(id: string): Promise<GetCaseResponse>;
 
   /**
    * 删除
-   * @param deleteItemDto
+   * @param request
    */
-  delete(deleteItemDto: DeleteItemDto): Promise<void>;
+  delete(request: DeleteCaseRequest): Promise<void>;
 
   /**
    * 上传
    * @param filename
    * @param content
    */
-  upload(filename: string, content: Buffer): Promise<ItemTreeDto>;
+  upload(filename: string, content: Buffer): Promise<void>;
 
   /**
    * 下载

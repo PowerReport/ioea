@@ -1,6 +1,6 @@
 import { Controller, Get, Inject } from "@nestjs/common";
 import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { TrashDto } from "../dto/trash.dto";
+import { GetTrashCaseResponse } from "../usecase/get-trash.case";
 import { ITrashService, TRASH_SERVICE } from "../services/trash.interface";
 
 @ApiTags('回收站服务')
@@ -18,10 +18,10 @@ export class TrashController {
   })
   @ApiOkResponse({
     description: '返回回收站中的目录或文件',
-    type: TrashDto,
+    type: GetTrashCaseResponse,
     isArray: true,
   })
-  async browse(): Promise<TrashDto[]> {
+  async browse(): Promise<GetTrashCaseResponse[]> {
     return await this.trashService.browse();
   }
 }

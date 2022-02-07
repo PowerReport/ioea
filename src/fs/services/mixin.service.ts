@@ -1,48 +1,72 @@
 import { Injectable } from '@nestjs/common';
-import { CopyItemDto } from '../dto/copy-item.dto';
-import { DeleteItemDto } from '../dto/delete-item.dto';
-import { MoveItemDto } from '../dto/move-item.dto';
+import { DuplicateCaseRequest } from '../usecase/duplicate.case';
+import { DeleteCaseRequest } from '../usecase/delete.case';
+import { MoveCaseRequest } from '../usecase/move.case';
 import { IMixinService } from './mixin.interface';
-import { ItemDto } from '../dto/item.dto';
-import { CreateItemDto } from '../dto/create-item.dto';
-import { ItemTreeDto } from '../dto/item-tree.dto';
-import { RenameItemDto } from '../dto/rename-item.dto';
+import { GetCaseResponse } from '../usecase/get.case';
+import { CreateCaseRequest } from '../usecase/create.case';
+import { TreeviewCaseResponse } from '../usecase/treeview.case';
+import { RenameCaseRequest, RenameCaseResponse } from '../usecase/rename.case';
 
 @Injectable()
 export class MixinService implements IMixinService {
-  browse(id: string): Promise<ItemDto[]> {
+  browse(id: string): Promise<GetCaseResponse[]> {
+    // TODO: 实现服务
+    console.log(id);
     throw new Error('Method not implemented.');
   }
 
-  create(createItemDto: CreateItemDto): Promise<ItemDto> {
+  treeview(id: string): Promise<TreeviewCaseResponse> {
+    // TODO: 实现服务
+    console.log(id);
     throw new Error('Method not implemented.');
   }
 
-  rename(renameItemDto: RenameItemDto): Promise<ItemDto> {
+  create(request: CreateCaseRequest): Promise<GetCaseResponse> {
+    // TODO: 实现服务
+    console.log(request);
     throw new Error('Method not implemented.');
   }
 
-  copy(copyItemDto: CopyItemDto): Promise<ItemDto> {
+  rename(request: RenameCaseRequest): Promise<RenameCaseResponse> {
+    // TODO: 实现服务
+    console.log(request);
     throw new Error('Method not implemented.');
   }
 
-  move(moveItemDto: MoveItemDto): Promise<ItemDto> {
+  duplicate(request: DuplicateCaseRequest): Promise<void> {
+    // TODO: 实现服务
+    console.log(request);
     throw new Error('Method not implemented.');
   }
 
-  top(id: string): Promise<ItemDto> {
+  move(request: MoveCaseRequest): Promise<GetCaseResponse> {
+    // TODO: 实现服务
+    console.log(request);
     throw new Error('Method not implemented.');
   }
 
-  delete(deleteItemDto: DeleteItemDto): Promise<void> {
+  top(id: string): Promise<GetCaseResponse> {
+    // TODO: 实现服务
+    console.log(id);
+    throw new Error('Method not implemented.');
+  }
+
+  delete(request: DeleteCaseRequest): Promise<void> {
+    // TODO: 实现服务
+    console.log(request);
     throw new Error('Method not implemented.');
   }
   
-  upload(filename: string, content: Buffer): Promise<ItemTreeDto> {
+  upload(filename: string, content: Buffer): Promise<void> {
+    // TODO: 实现服务
+    console.log(filename, content);
     throw new Error('Method not implemented.');
   }
   
   download(id: string): Promise<string> {
+    // TODO: 实现服务
+    console.log(id);
     throw new Error('Method not implemented.');
   }
 }

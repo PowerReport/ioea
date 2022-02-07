@@ -1,6 +1,6 @@
-import { DataState } from "../entities/data-state";
+import { DataState } from "../../domain/trash/model/data-state";
 
-export class TrashDto {
+export class GetTrashCaseResponse {
   id: number;
 
   state: DataState;

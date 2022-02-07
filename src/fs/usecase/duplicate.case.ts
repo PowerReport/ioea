@@ -1,17 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CopyItemDto {
+export class DuplicateCaseRequest {
   @ApiProperty({
-    description: '拷贝的元素',
-    type: Number,
-  })
-  items: number[];
-
-  @ApiProperty({
-    description: '目标目录',
+    description: '拷贝的目录或文件的 `id`',
     type: String,
   })
-  targetId: 'root' | number;
+  items: string[];
+
+  @ApiProperty({
+    description: '目录的 `id`',
+    type: String,
+  })
+  dirId: string;
 
   @ApiProperty({
     description: '拷贝冲突时采取的方法。默认为警告。',
@@ -23,6 +23,9 @@ export class CopyItemDto {
   copyType: CopyType = CopyType.Warn;
 }
 
+/**
+ * 拷贝模式
+ */
 export enum CopyType {
   /**
    * 警告

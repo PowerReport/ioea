@@ -1,11 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-/**
- * 删除 DTO
- */
-export class DeleteItemDto {
+export class DeleteCaseRequest {
   @ApiProperty({
-    description: '删除的目录或文件',
+    description: '删除的目录或文件的 `id`',
     type: String,
     isArray: true,
   })

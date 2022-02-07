@@ -10,18 +10,18 @@ export interface IFileService {
    * 获取文件 Manifest
    * @param id
    */
-  getManifest(id: number): Promise<Manifest>;
+  getManifest(id: string): Promise<Manifest>;
 
   /**
    * 文件预览
    * @param id 
    * @param version 
    */
-  preview(id: number, version?: number | undefined): Promise<string>;
+  preview(id: string, version?: number | undefined): Promise<string>;
 
   /**
    * 文件导出
    * @param id 
    */
-  export(id: number): Promise<string>;
+  export(id: string): Promise<string>;
 }

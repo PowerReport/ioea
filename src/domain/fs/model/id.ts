@@ -1,6 +1,7 @@
-import { Oops } from "../friendly-except/oops";
+import { Oops } from "../../../common/friendly-except/oops";
 
 const root = 'root';
+const idPattern = /^(?<type>file|dir)!(?<id>\d+)$/;
 
 export class Id {
   private id?: number | undefined;
@@ -26,24 +27,28 @@ export class Id {
     // 根目录
     if (str === root) {
       this.id = 0;
+      this.type = 'dir';
+
+      return;
     }
-  
-    const idPattern = /^(?<type>file|dir)!(?<id>\d+)$/;
-  
+
     if (idPattern.test(str)) {
       const arr = idPattern.exec(str);
       if (!arr?.groups) {
-        return undefined;
+        throw Oops.bah(`无法识别的 id: ${str}, 请检查格式是否正确!例如: dir!100, file!101`);
       }
 
       const id = parseInt(arr.groups['id']);
       if (!id || id <= 0) {
-        return undefined;
+        throw Oops.bah(`无法识别的 id: ${str}, 请检查格式是否正确!例如: dir!100, file!101`);
       }
-    
+
+      this.id = id;
       this.type = arr.groups['type'] as 'file' | 'dir';
+
+      return;
     }
 
-    throw Oops.bah('');
+    throw Oops.bah(`无法识别的 id: ${str}, 请检查格式是否正确!例如: dir!100, file!101`);
   }
 }

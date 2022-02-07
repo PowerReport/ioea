@@ -1,4 +1,4 @@
-import { TrashDto } from "../dto/trash.dto";
+import { GetTrashCaseResponse } from "../usecase/get-trash.case";
 
 export const TRASH_SERVICE = 'TRASH_SERVICE';
 
@@ -9,5 +9,5 @@ export interface ITrashService {
   /**
    * 浏览
    */
-  browse(): Promise<TrashDto[]>;
+  browse(): Promise<GetTrashCaseResponse[]>;
 }

@@ -14,6 +14,7 @@ const services = [
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    // TODO: 是否使用配置文件，而非环境变量
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -24,6 +25,7 @@ const services = [
         username: configService.get('DATABASE_USERNAME'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
+        schema: configService.get('DATABASE_SCHEMA'),
         synchronize: configService.get('DATABASE_SYNCHRONIZE') === 'true',
         entityPrefix: configService.get('DATABASE_ENTITY_PREFIX'),
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],

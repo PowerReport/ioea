@@ -6,9 +6,9 @@ import { MIXIN_SERVICE } from './services/mixin.interface';
 import { MixinService } from './services/mixin.service';
 import { MixinController } from './controllers/mixin.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FileEntity } from './entities/file.entity';
-import { DirEntity } from './entities/dir.entity';
-import { UserModule } from '../user/user.module';
+import { FileEntity } from '../domain/fs/model/file.entity';
+import { DirEntity } from '../domain/fs/model/dir.entity';
+import { UserModule } from '../domain/user/user.module';
 import { SharedModule } from '../shared/shared.module';
 
 const services = [

@@ -3,7 +3,6 @@ import {
   Get,
   Inject,
   Param,
-  ParseIntPipe,
   Query,
   Res,
 } from '@nestjs/common';
@@ -28,13 +27,13 @@ export class FilesController {
   @ApiParam({
     name: 'id',
     description: '文件的 `id`',
-    type: Number,
+    type: String,
   })
   @ApiOkResponse({
     description: '返回文件 Manifest',
     type: Manifest,
   })
-  async getManifest(@Param('id', ParseIntPipe) id: number): Promise<Manifest> {
+  async getManifest(@Param('id') id: string): Promise<Manifest> {
     return await this.fileService.getManifest(id);
   }
 
@@ -46,7 +45,7 @@ export class FilesController {
   @ApiParam({
     name: 'id',
     description: '文件的 `id`',
-    type: Number,
+    type: String,
   })
   @ApiQuery({
     name: 'version',
@@ -55,11 +54,11 @@ export class FilesController {
     required: false,
   })
   @ApiOkResponse({
-    description: '返回文件的内容',
+    description: '返回文件的内容', // TODO: 返回文件的内容
     type: String,
   })
   async preview(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Query('version') version?: number | undefined, // TODO: 可选参数的 ParseInt pipe
   ): Promise<string> {
     return await this.fileService.preview(id, version);
@@ -78,14 +77,15 @@ export class FilesController {
   @ApiParam({
     name: 'id',
     description: '文件的 `id`',
-    type: Number,
+    type: String,
   })
   @ApiOkResponse({
     description: '返回二进制数据',
     type: Buffer,
   })
-  async export(@Res() res: Response, @Param('id', ParseIntPipe) id: number): Promise<void> {
+  async export(@Res() res: Response, @Param('id') id: string): Promise<void> {
     const file = await this.fileService.export(id);
+
     res.sendFile(file);
   }
 }

@@ -4,15 +4,21 @@ import { IFileService } from './file.interface';
 
 @Injectable()
 export class FileService implements IFileService {
-  getManifest(id: number): Promise<Manifest> {
+  getManifest(id: string): Promise<Manifest> {
+    // TODO: 实现服务
+    console.log(id);
     throw new Error('Method not implemented.');
   }
   
-  preview(id: number, version?: number): Promise<string> {
+  preview(id: string, version?: number): Promise<string> {
+    // TODO: 实现服务
+    console.log(id, version);
     throw new Error('Method not implemented.');
   }
 
-  export(id: number): Promise<string> {
+  export(id: string): Promise<string> {
+    // TODO: 实现服务
+    console.log(id);
     throw new Error('Method not implemented.');
   }
 }

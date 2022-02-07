@@ -17,6 +17,8 @@ export class UnifyAuthGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
+    // TODO: 实现身份认证
+    console.log(context);
     this.userAccessor.current = {
       id: '1',
       username: 'ioea-admin',

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TRASH_SERVICE } from './services/trash.interface';
 import { TrashService } from './services/trash.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TrashEntity } from './entities/trash.entity';
+import { TrashEntity } from '../domain/trash/model/trash.entity';
 
 const services = [
   {

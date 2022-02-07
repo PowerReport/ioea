@@ -1,4 +1,4 @@
-import { AppFriendlyException } from './exceptions/app-friendly.exception';
+import { AppFriendlyException } from './exception/app-friendly.exception';
 import { HttpStatus } from '@nestjs/common';
 
 /**
